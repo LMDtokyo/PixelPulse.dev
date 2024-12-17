@@ -1,0 +1,170 @@
+---
+title: "Hacker's Portfolio"
+description: "Хакер, второй курс, владею C++, C#, Python, Rust, TSX, занимаюсь веб и серверной разработкой, изучаю кибербезопасность, пентестинг, OSINT и DevSecOps. Создаю надёжные и высокопроизводительные решения."
+date: "2024-12-16"
+owner: { avatar: "https://pbs.twimg.com/profile_images/1749414032279216128/sxf-SdKE_400x400.jpg", name: "LMDtokyo" }
+image: "assets/hacker-lab.webp"
+tags: ["hacking", "development", "C++", "C#", "Python", "Rust", "TSX"]
+draft: false
+---
+
+
+## Приветствую!
+
+Меня зовут **LMDtokyo** — я хакер, пентестер и full-stack разработчик. Моя специализация включает кибербезопасность, системное программирование (C++, Rust), высокоуровневую разработку (C#, Python) и современные веб-технологии (TSX, React, Astro). Я учусь на втором курсе и стремлюсь к глубокому пониманию DevSecOps, OSINT, реверс-инжиниринга и передовых методик анализа трафика.
+
+Мой подход — **полный цикл разработки**: от низкоуровневых компонентов и сетевых протоколов до фронтенд-интерфейсов и инфраструктуры, с акцентом на безопасность на каждом этапе.
+
+<div class="my-8 flex flex-col items-center">
+  <img src="assets/0bca2bdcb66a1558ed60b21fc3d2d898.jpg" alt="Hacker Illustration" class="w-full max-w-md rounded-lg border border-gray-700 shadow-lg" />
+</div>
+
+
+## Мои навыки
+
+### Языки и технологии
+- **C++ & Rust:** Системное программирование, высокопроизводительные утилиты, оптимизация под многопоточность.
+- **C# & .NET:** Создание серверных приложений, CLI-инструментов и микросервисов.
+- **Python:** Автоматизация, парсинг данных, OSINT-скрипты, быстрая прототипизация.
+- **TypeScript (TSX) & React/Astro:** Интерактивные SPA/SSR-приложения, гибридный рендеринг для оптимальной производительности.
+- **Linux (Kali):** Пентестинг, реверс-инжиниринг, анализ сетей, эксплуатация уязвимостей.
+
+### Инструменты
+- **Kali Linux, Wireshark, Nmap, Burp Suite:** Фундамент для анализа трафика, поиска уязвимостей, тестирования безопасности.
+- **Git, Docker, CI/CD:** Стабильный, повторяемый деплой, интеграция с конвейером разработки.
+- **VSCode, JetBrains IDE, Neovim:** Эффективная среда для написания кода и рефакторинга.
+- **DevOps/DevSecOps:** Автоматизированные проверки, статический анализ кода, внедрение безопасных практик на уровне CI/CD.
+
+### Навыки в формате "badge"
+<div class="flex flex-wrap gap-2 mt-4">
+  <span class="inline-block bg-gray-800 text-green-400 text-xs px-2 py-1 rounded">C++</span>
+  <span class="inline-block bg-gray-800 text-cyan-400 text-xs px-2 py-1 rounded">Rust</span>
+  <span class="inline-block bg-gray-800 text-purple-400 text-xs px-2 py-1 rounded">C#</span>
+  <span class="inline-block bg-gray-800 text-yellow-400 text-xs px-2 py-1 rounded">Python</span>
+  <span class="inline-block bg-gray-800 text-blue-400 text-xs px-2 py-1 rounded">TSX/React</span>
+  <span class="inline-block bg-gray-800 text-pink-400 text-xs px-2 py-1 rounded">Linux/Kali</span>
+</div>
+
+---
+
+## Примеры работ и методик
+
+### Сетевой сканер на C++/Rust
+
+**Задача:** Создать утилиту для анализа сетевого трафика, обнаружения открытых портов и сервисов.
+**Инструменты:** `libpcap` для C++, `tokio` для Rust.
+
+#### Пример на C++:
+```cpp
+#include <iostream>
+#include <pcap.h>
+
+int main() {
+    char errbuf[PCAP_ERRBUF_SIZE];
+    pcap_if_t *alldevs;
+    if (pcap_findalldevs(&alldevs, errbuf) == -1) {
+        std::cerr << "Error finding devices: " << errbuf << std::endl;
+        return 1;
+    }
+
+    // Выбор интерфейса, установка фильтра (например, "tcp port 80"), захват пакетов
+    // Анализ трафика для определения открытых портов и сервисов
+
+    pcap_freealldevs(alldevs);
+    return 0;
+}
+```
+Пример на Rust (с использованием async-экосистемы):
+```cpp
+use tokio::net::TcpStream;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let addr = "192.168.1.10:80";
+    match TcpStream::connect(addr).await {
+        Ok(_) => println!("Port 80 is open on {}", addr),
+        Err(e) => println!("Port 80 closed or filtered on {}: {}", addr, e),
+    }
+    Ok(())
+}
+
+```
+Консольный вывод (пример):
+```cpp
+$ ./scanner --host 192.168.1.10 --ports 1-1000
+[INFO] Scanning host 192.168.1.10...
+[OPEN] Port 80: HTTP Service
+[CLOSED] Port 443: No Response
+[INFO] Scan complete.
+
+```
+Веб-приложение на TSX/React/Astro
+Задача: Создать высокопроизводительное веб-приложение с гибридным рендерингом: часть контента генерируется на сервере (Astro), часть интерактивных компонентов — на клиенте (React).
+
+```cpp
+// components/Greeting.tsx
+import React from 'react';
+
+export default function Greeting({ user }: { user: string }) {
+  return <h1 className="text-green-300">Привет, {user}! Добро пожаловать в моё приложение.</h1>;
+}
+```
+Astro страница:
+```cpp
+---
+import Greeting from '../components/Greeting.tsx';
+const user = 'LMDtokyo';
+---
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Безопасное веб-приложение</title>
+  </head>
+  <body class="bg-black text-gray-200">
+    <Greeting user={user} client:load />
+    <!-- Контент Astro отрендерен на сервере, компонент Greeting отрендерен на клиенте -->
+  </body>
+</html>
+
+```
+Автоматизация и OSINT на Python
+Задача: Быстро собрать данные о целевых хостах или публичных профилях для OSINT.
+Инструменты: requests, BeautifulSoup для парсинга.
+```cpp
+import requests
+from bs4 import BeautifulSoup
+
+url = "https://example.com/users"
+r = requests.get(url)
+soup = BeautifulSoup(r.text, 'html.parser')
+profiles = soup.find_all("div", class_="user-card")
+
+for p in profiles:
+    name = p.find("h2").text.strip()
+    email = p.find("a", class_="email").text.strip()
+    print(f"[INFO] Found user: {name}, email: {email}")
+```
+Вывод:
+```cpp
+[INFO] Found user: Alice Johnson, email: alice@example.com
+[INFO] Found user: Bob Smith, email: bob@example.org
+
+```
+Достижения в CTF и пентестинге
+Участие в CTF-соревнованиях: Решение задач по стеганографии, криптоанализу, реверс-инжинирингу, веб-уязвимостям.
+Использование Nmap, sqlmap, Metasploit: автоматизированные сканирования, поиск и эксплуатация уязвимостей.
+Реверс-инжиниринг бинарей с помощью Ghidra и IDA Pro: анализ машинного кода, понимание логики без исходников.
+Пример запуска Nmap для обнаружения уязвимостей:
+```cpp
+nmap -sV --script=vuln target.com
+
+```
+Roadmap развития
+** Углубление в Rust: Разработка безопасных и устойчивых к ошибкам системных сервисов.
+** Оптимизация фронтенда: Использование Astro + React SSR для уменьшения времени до интерактивности.
+** Расширение DevSecOps: Автоматический SAST, DAST, интеграция SCA для отслеживания уязвимостей зависимостей.
+** Криптография и защита данных: Изучение TLS, внедрение безопасных схем аутентификации, правильное хранение ключей.
+
+Философия и миссия
+<div class="my-6 p-4 border border-gray-700 rounded-lg bg-black/50 text-gray-200 text-sm leading-relaxed"> <strong>Мой девиз:</strong> "Безопасность — это не продукт, а непрерывный процесс познания. Я стремлюсь не просто обнаружить уязвимость, но и понять её природу, устранить причину и поделиться знаниями." </div>
+Хакер для меня — это исследователь, инженер и новатор, создающий более надёжный, защищённый и справедливый цифровой мир.

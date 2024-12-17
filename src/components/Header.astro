@@ -1,0 +1,84 @@
+---
+import Container from '@/components/Container.astro'
+import Link from '@/components/Link.astro'
+import MobileMenu from '@/components/ui/mobile-menu'
+import { NAV_LINKS } from '@/consts'
+import { Image } from 'astro:assets'
+import logo from '../../public/static/logo.webp'
+---
+
+<style global>
+    :root {
+        --neon-green: #00ff7f;
+    }
+
+    .nav-link {
+        @apply relative transition-colors duration-300 text-sm text-foreground/60;
+    }
+
+    .nav-link:hover {
+        /* Используем Tailwind для произвольного цвета через квадратные скобки */
+        @apply text-[var(--neon-green)];
+    }
+
+    .nav-link::after {
+        content: "";
+        @apply absolute left-0 bottom-0 w-full h-[1px] bg-transparent;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s, background-color 0.3s;
+    }
+
+    .nav-link:hover::after {
+        /* Применяем произвольный цвет фона */
+        @apply bg-[var(--neon-green)];
+        transform: scaleX(1);
+    }
+
+    /* "Глич"-эффект: меняем neon-green на var(--neon-green) */
+    .nav-link:hover {
+        animation: glitch 500ms infinite alternate ease-in-out;
+    }
+
+    @keyframes glitch {
+        0% { text-shadow: 1px 0 var(--neon-green), -1px -1px var(--neon-green); }
+        50% { text-shadow: -1px 1px var(--neon-green), 1px 0 var(--neon-green); }
+        100% { text-shadow: 1px -1px var(--neon-green), -1px 1px var(--neon-green); }
+    }
+
+    .nav-bg {
+        @apply bg-background/30 backdrop-blur-md border-b border-gray-800/50;
+    }
+
+    .logo-img {
+        @apply size-8 hover:scale-110 transition-transform duration-300;
+    }
+</style>
+
+<header class="sticky top-0 z-10 nav-bg transition-colors duration-300">
+  <Container>
+    <div class="flex flex-wrap items-center justify-between gap-4 py-4">
+      <Link href="/" class="flex items-center gap-2">
+        <Image src={logo} alt="Logo" class="logo-img rounded-full border border-gray-700 shadow-sm" />
+        <span class="hidden sm:inline text-sm text-gray-300 transition-colors duration-300 hover:text-[var(--neon-green)]">
+          LMDtokyo Labs
+        </span>
+      </Link>
+      <div class="flex items-center gap-2 sm:gap-4">
+        <nav class="hidden items-center gap-4 sm:flex sm:gap-6">
+          {
+            NAV_LINKS.map((item) => (
+              <Link
+                href={item.href}
+                class="nav-link capitalize"
+              >
+                {item.label}
+              </Link>
+            ))
+          }
+        </nav>
+        <MobileMenu client:load transition:persist />
+      </div>
+    </div>
+  </Container>
+</header>
