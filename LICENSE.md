@@ -1,10 +1,10 @@
 # LICENSE
 
-This license file pertains to the website hosted at [PixelPulse.dev](https://enscribe.dev) and its associated repository, [jktrn/enscribe.dev](https://github.com/jktrn/enscribe.dev).
+This license file pertains to the website hosted at [PixelPulse.dev](https://pixel-pulse-dev-nig4.vercel.app) and its associated repository, [LMDtokyo/PixelPulse.dev](https://github.com/LMDtokyo/PixelPulse.dev).
 
 ## Original Template License
 
-This website is based on a template, [LMDtokyo/astro-erudite](https://github.com/LMDtokyo/PixelPulse), that was very loosely derived from an MIT-licensed project, [trevortylerlee/astro-micro](https://github.com/trevortylerlee/astro-micro). The original MIT license is included here for compliance:
+This website was bootstrapped from an MIT-licensed open-source template, [trevortylerlee/astro-micro](https://github.com/trevortylerlee/astro-micro). The original MIT license is reproduced here for compliance:
 
 <blockquote>
 
@@ -38,18 +38,18 @@ Copyright (c) 2024 LMDtokyo
 
 All rights reserved.
 
-All modifications, additions, and custom implementations made to the original [LMDtokyo/PixelPulse](https://github.com/jktrn/astro-erudite) template for this specific website are proprietary. These modifications include, but are not limited to, custom HTML, CSS, JavaScript/TypeScript, Astro/React components, and any other code or scripts used to create the unique functionality and appearance of this website.
+All modifications, additions, and custom implementations built on top of the original template for this specific website are proprietary. These include, but are not limited to, custom HTML, CSS, JavaScript/TypeScript, Astro/React components, and any other code or scripts used to create the unique functionality and appearance of this website.
 
 1. The code is made publicly available for viewing and reference purposes only.
 2. You may not modify, adapt, or build upon the code covered by this license without explicit written permission from the copyright holder.
 3. You may not redistribute the code covered by this license, in whole or in part, without explicit written permission from the copyright holder.
 4. You may not use the code covered by this license for commercial purposes without explicit written permission from the copyright holder.
-5. If you reference or discuss this code in any public forum or publication, you must provide appropriate attribution to the original author and repository.
+5. If you reference or discuss this code in any public forum or publication, you must provide appropriate attribution to the author and repository.
 6. Brief excerpts may be reproduced for educational purposes, critical review, or other fair uses as permitted by copyright law, provided appropriate attribution is given.
 
-This license applies specifically to the custom modifications made to the [LMDtokyo/PixelPulse](https://github.com/jktrn/astro-erudite) template. It does not extend to the original template code, which remains under its original MIT license.
+This license applies specifically to the custom code of this website. It does not extend to the original template code, which remains under its MIT license (above).
 
-For permission requests, please contact [letmedietokyo@icloud.com](mailto:jason@enscribe.dev).
+For permission requests, please contact [LMDtokyo@proton.me](mailto:LMDtokyo@proton.me).
 
 ## Website Content License
 
@@ -59,8 +59,8 @@ To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-
 
 ## Disclaimer
 
-If you are interested in utilizing a similar website structure for your own means, please refer to the original template at [jktrn/astro-erudite](https://github.com/jktrn/astro-erudite), which is available under the MIT license and is free for use and modification.
+If you are interested in building a similar website, please refer to the original open-source template at [trevortylerlee/astro-micro](https://github.com/trevortylerlee/astro-micro), which is available under the MIT license and is free for use and modification.
 
-If you have any questions about usage, licensing, or permissions, please contact [letmedietokyo@icloud.com](mailto:jason@enscribe.dev).
+If you have any questions about usage, licensing, or permissions, please contact [LMDtokyo@proton.me](mailto:LMDtokyo@proton.me).
 
-By using or interacting with this website's repository in any way, you agree to comply with all applicable licenses and terms stated herein.
+By using or interacting with this repository in any way, you agree to comply with all applicable licenses and terms stated herein.

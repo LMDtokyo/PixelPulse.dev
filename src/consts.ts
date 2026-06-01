@@ -16,7 +16,7 @@ export const SITE: Site = {
   TITLE: 'PixelPulse',
   DESCRIPTION:
     'Freelance frontend web development and cybersecurity shenanigans.',
-  EMAIL: 'letmedietokyo@icloud.com',
+  EMAIL: 'LMDtokyo@proton.me',
   NUM_POSTS_ON_HOMEPAGE: 2,
   POSTS_PER_PAGE: 4,
   SITEURL: 'https://pixel-pulse-dev-nig4.vercel.app',
@@ -36,6 +36,6 @@ export const NAV_LINKS: Link[] = [
 export const SOCIAL_LINKS: Link[] = [
   { href: 'https://github.com/LMDtokyo', label: 'GitHub' },
   { href: 'https://twitter.com/LMDtokyo', label: 'Twitter' },
-  { href: 'letmedietokyo@icloud.com', label: 'Email' },
+  { href: 'LMDtokyo@proton.me', label: 'Email' },
   { href: '/rss.xml', label: 'RSS' },
 ]
