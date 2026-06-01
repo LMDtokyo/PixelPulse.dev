@@ -25,3 +25,8 @@ pnpm-debug.log*
 
 teaser.pptx
 ~$teaser.pptx
+# astro build cache
+.astro/
+
+# vercel build output
+.vercel/

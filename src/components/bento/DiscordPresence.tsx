@@ -97,6 +97,7 @@ const DiscordPresence: React.FC = () => {
     if (!activity.assets) return null
 
     const largeImage = activity.assets.large_image
+    if (!largeImage) return null
 
     // Проверяем, является ли изображение стандартным или кастомным
     if (largeImage.startsWith('mp:')) {

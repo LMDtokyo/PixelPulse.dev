@@ -20,9 +20,7 @@ const SpotifyPresence = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch(
-        `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=lmdtokyo&api_key=__REMOVED_SEE_ENV__&format=json&limit=1`
-      )
+      fetch('/api/lastfm')
         .then((response) => response.json())
         .then((data) => {
           const track = data.recenttracks?.track?.[0]

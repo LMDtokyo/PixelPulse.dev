@@ -20,10 +20,13 @@ import { transformerNotationSkip } from './src/lib/transformerNotationSkip'
 import { transformerDiffHighlight } from './src/lib/transformerDiffHighlight'
 
 import icon from 'astro-icon'
+import vercel from '@astrojs/vercel/serverless'
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://enscribe-dev-astro.vercel.app',
+  site: 'https://pixel-pulse-dev-nig4.vercel.app',
+  output: 'hybrid',
+  adapter: vercel(),
   integrations: [
     tailwind({
       applyBaseStyles: false,

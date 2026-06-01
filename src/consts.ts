@@ -19,7 +19,7 @@ export const SITE: Site = {
   EMAIL: 'letmedietokyo@icloud.com',
   NUM_POSTS_ON_HOMEPAGE: 2,
   POSTS_PER_PAGE: 4,
-  SITEURL: '',
+  SITEURL: 'https://pixel-pulse-dev-nig4.vercel.app',
 }
 
 export const NAV_LINKS: Link[] = [
