@@ -7,60 +7,20 @@ import { Image } from 'astro:assets'
 import logo from '../../public/static/logo.webp'
 ---
 
-<style global>
-    :root {
-        --neon-green: #00ff7f;
-    }
-
-    .nav-link {
-        @apply relative transition-colors duration-300 text-sm text-foreground/60;
-    }
-
-    .nav-link:hover {
-        /* Используем Tailwind для произвольного цвета через квадратные скобки */
-        @apply text-[var(--neon-green)];
-    }
-
-    .nav-link::after {
-        content: "";
-        @apply absolute left-0 bottom-0 w-full h-[1px] bg-transparent;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s, background-color 0.3s;
-    }
-
-    .nav-link:hover::after {
-        /* Применяем произвольный цвет фона */
-        @apply bg-[var(--neon-green)];
-        transform: scaleX(1);
-    }
-
-    /* "Глич"-эффект: меняем neon-green на var(--neon-green) */
-    .nav-link:hover {
-        animation: glitch 500ms infinite alternate ease-in-out;
-    }
-
-    @keyframes glitch {
-        0% { text-shadow: 1px 0 var(--neon-green), -1px -1px var(--neon-green); }
-        50% { text-shadow: -1px 1px var(--neon-green), 1px 0 var(--neon-green); }
-        100% { text-shadow: 1px -1px var(--neon-green), -1px 1px var(--neon-green); }
-    }
-
-    .nav-bg {
-        @apply bg-background/30 backdrop-blur-md border-b border-gray-800/50;
-    }
-
-    .logo-img {
-        @apply size-8 hover:scale-110 transition-transform duration-300;
-    }
-</style>
-
-<header class="sticky top-0 z-10 nav-bg transition-colors duration-300">
+<header
+  class="sticky top-0 z-10 border-b border-border bg-background/30 backdrop-blur-md transition-colors duration-300"
+>
   <Container>
     <div class="flex flex-wrap items-center justify-between gap-4 py-4">
       <Link href="/" class="flex items-center gap-2">
-        <Image src={logo} alt="Logo" class="logo-img rounded-full border border-gray-700 shadow-sm" />
-        <span class="hidden sm:inline text-sm text-gray-300 transition-colors duration-300 hover:text-[var(--neon-green)]">
+        <Image
+          src={logo}
+          alt="Logo"
+          class="size-8 rounded-full border border-border shadow-sm transition-transform duration-300 hover:scale-110"
+        />
+        <span
+          class="hidden text-sm text-muted-foreground transition-colors duration-300 hover:text-primary sm:inline"
+        >
           LMDtokyo Labs
         </span>
       </Link>
@@ -68,10 +28,7 @@ import logo from '../../public/static/logo.webp'
         <nav class="hidden items-center gap-4 sm:flex sm:gap-6">
           {
             NAV_LINKS.map((item) => (
-              <Link
-                href={item.href}
-                class="nav-link capitalize"
-              >
+              <Link href={item.href} class="nav-link capitalize">
                 {item.label}
               </Link>
             ))
@@ -82,3 +39,22 @@ import logo from '../../public/static/logo.webp'
     </div>
   </Container>
 </header>
+
+<style>
+  .nav-link {
+    @apply relative text-sm text-muted-foreground transition-colors duration-300;
+  }
+
+  .nav-link:hover {
+    @apply text-primary;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-primary transition-transform duration-300;
+  }
+
+  .nav-link:hover::after {
+    @apply scale-x-100;
+  }
+</style>

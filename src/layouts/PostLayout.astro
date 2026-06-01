@@ -1,0 +1,136 @@
+---
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PostNavigation from '@/components/PostNavigation.astro'
+import ScrollToTop from '@/components/ScrollToTop.astro'
+import TableOfContents from '@/components/TableOfContents.astro'
+import { badgeVariants } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
+import Layout from '@/layouts/Layout.astro'
+import { formatDate, readingTime } from '@/lib/utils'
+import type { ImageMetadata, MarkdownHeading } from 'astro'
+import { Icon } from 'astro-icon/components'
+import { Image } from 'astro:assets'
+
+type PostLink = { slug: string; data: { title: string } } | null
+
+interface Props {
+  title: string
+  description: string
+  baseUrl: string
+  parent: { href: string; label: string }
+  date: Date
+  body: string
+  headings: MarkdownHeading[]
+  prevPost: PostLink
+  nextPost: PostLink
+  image?: ImageMetadata
+  tags?: string[]
+}
+
+const {
+  title,
+  description,
+  baseUrl,
+  parent,
+  date,
+  body,
+  headings,
+  prevPost,
+  nextPost,
+  image,
+  tags,
+} = Astro.props
+
+const ogImage = image?.src ?? '/static/1200x630.png'
+const hasAuthor = Astro.slots.has('author')
+---
+
+<Layout title={title} description={description} image={ogImage}>
+  <section
+    class="grid grid-cols-[minmax(0px,1fr)_min(768px,100%)_minmax(0px,1fr)] gap-y-6 *:px-4"
+  >
+    <Breadcrumbs
+      items={[
+        { href: parent.href, label: parent.label, icon: 'lucide:archive' },
+        { label: title, icon: 'lucide:file-text' },
+      ]}
+      class="col-start-2"
+    />
+
+    {
+      image && (
+        <div class="col-span-full mx-auto w-full max-w-[1000px]">
+          <Image
+            src={image}
+            alt={title}
+            width={1200}
+            height={630}
+            class="rounded-xl object-cover"
+          />
+        </div>
+      )
+    }
+
+    <section class="col-start-2 flex flex-col gap-y-6 text-center">
+      <div class="flex flex-col gap-y-4">
+        <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1>
+
+        <div
+          class="flex flex-wrap items-center justify-center gap-2 text-sm text-muted-foreground"
+        >
+          {
+            hasAuthor && (
+              <>
+                <slot name="author" />
+                <Separator orientation="vertical" className="h-4" />
+              </>
+            )
+          }
+          <div class="flex items-center gap-2">
+            <span>{formatDate(date)}</span>
+            <Separator orientation="vertical" className="h-4" />
+            <span>{readingTime(body)}</span>
+          </div>
+        </div>
+
+        {
+          tags && (
+            <div class="flex flex-wrap justify-center gap-2">
+              {tags.length > 0 ? (
+                tags.map((tag) => (
+                  <a
+                    href={`/tags/${tag}`}
+                    class={badgeVariants({ variant: 'secondary' })}
+                  >
+                    <Icon name="lucide:hash" class="size-3 -translate-x-0.5" />
+                    {tag}
+                  </a>
+                ))
+              ) : (
+                <span class="text-sm text-muted-foreground">
+                  No tags available
+                </span>
+              )}
+            </div>
+          )
+        }
+
+        <slot name="actions" />
+      </div>
+
+      <PostNavigation prevPost={prevPost} nextPost={nextPost} baseUrl={baseUrl} />
+    </section>
+
+    {headings.length > 0 && <TableOfContents headings={headings} />}
+
+    <article
+      class="prose prose-sm prose-neutral col-start-2 max-w-none dark:prose-invert"
+    >
+      <slot />
+    </article>
+
+    <PostNavigation prevPost={prevPost} nextPost={nextPost} baseUrl={baseUrl} />
+  </section>
+
+  <ScrollToTop />
+</Layout>

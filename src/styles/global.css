@@ -50,33 +50,6 @@
     --chart-7: 32 12% 25%;
   }
 
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --primary: 34 54% 81%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --additive: 112 50% 36%;
-    --additive-foreground: 0 0% 9%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-
-    --chart-1: 34 54% 81%;
-    --chart-2: 34 34% 73%;
-    --chart-3: 35 22% 65%;
-    --chart-4: 35 16% 57%;
-    --chart-5: 35 12% 41%;
-    --chart-6: 33 12% 33%;
-    --chart-7: 32 12% 25%;
-  }
-
   *,
   *::before,
   *::after {
@@ -84,21 +57,12 @@
   }
 
   html {
-    color-scheme: light;
+    color-scheme: dark;
     @apply bg-background text-foreground;
-
-    &.dark {
-      color-scheme: dark;
-    }
 
     ::-webkit-scrollbar-corner {
       @apply bg-transparent;
     }
-  }
-
-  .disable-transitions,
-  .disable-transitions * {
-    @apply !transition-none;
   }
 }
 
