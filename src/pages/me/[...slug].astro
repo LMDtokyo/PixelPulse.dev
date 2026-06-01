@@ -1,6 +1,6 @@
 ---
 import TerminalProfileLayout from '@/layouts/TerminalProfileLayout.astro'
-import { sortByDate } from '@/lib/collections'
+import { getAdjacentPosts, sortByDate } from '@/lib/collections'
 import { type CollectionEntry, getCollection } from 'astro:content'
 
 export async function getStaticPaths() {
@@ -9,15 +9,24 @@ export async function getStaticPaths() {
 }
 type Props = CollectionEntry<'me'>
 
+const posts = sortByDate(await getCollection('me'))
 const post = Astro.props
+const { prev, next } = getAdjacentPosts(posts, post.slug)
+const { Content, headings } = await post.render()
 const ogImage = post.data.image?.src ?? '/static/1200x630.png'
-const { Content } = await post.render()
 ---
 
 <TerminalProfileLayout
   title={post.data.title}
   description={post.data.description}
   image={ogImage}
+  date={post.data.date}
+  body={post.body}
+  tags={post.data.tags ?? []}
+  headings={headings}
+  owner={post.data.owner}
+  prevPost={prev}
+  nextPost={next}
 >
   <Content />
 </TerminalProfileLayout>

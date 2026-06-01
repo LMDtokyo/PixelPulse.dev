@@ -7,39 +7,166 @@ import { PROFILE } from '@/lib/profile'
 ---
 
 <header
-  class="sticky top-0 z-20 border-b border-border bg-background/70 font-mono backdrop-blur"
+  class="hud sticky top-0 z-20 border-b border-border bg-background/70 font-mono backdrop-blur"
 >
+  <span class="hud-corner hud-tl" aria-hidden="true"></span>
+  <span class="hud-corner hud-tr" aria-hidden="true"></span>
+
   <Container>
     <div class="flex items-center justify-between gap-4 py-3 text-sm">
-      <Link href="/" class="flex items-center whitespace-nowrap">
-        <span class="text-muted-foreground">
-          <span class="term-green">{PROFILE.handle}</span>@<span
-            class="term-cyan">{PROFILE.host}</span
-          >:<span class="text-primary">~</span>$
+      <div class="flex items-center gap-3">
+        <Link
+          href="/"
+          class="flex items-center whitespace-nowrap"
+          title="Wake up, Neo…"
+        >
+          <span class="text-muted-foreground">
+            <span class="term-green">{PROFILE.handle}</span>@<span
+              class="term-cyan">{PROFILE.host}</span
+            >
+          </span>
+        </Link>
+        <span
+          class="inline-flex items-center rounded border border-primary/40 px-1.5 py-0.5 text-[10px] tracking-wider text-primary"
+          title="the answer to life, the universe and everything"
+        >
+          LV.42
         </span>
-        <span class="term-caret ml-1.5" aria-hidden="true"></span>
-      </Link>
+      </div>
 
-      <nav class="hidden items-center gap-x-4 sm:flex">
+      <nav class="hidden items-center gap-x-6 sm:flex">
         {
           NAV_LINKS.map((item) => (
-            <Link href={item.href} class="nav-cmd text-muted-foreground">
-              <span class="text-primary/50">cd</span> {item.label}
+            <Link href={item.href} class="nav-cmd relative text-muted-foreground">
+              {item.label}
             </Link>
           ))
         }
       </nav>
 
-      <MobileMenu client:load transition:persist />
+      <div class="flex items-center gap-3">
+        <span
+          class="hidden items-center gap-1.5 text-xs text-muted-foreground sm:flex"
+        >
+          <span class="online size-2 rounded-full bg-[hsl(var(--term-green))]"
+          ></span>
+          online
+        </span>
+        <MobileMenu client:load transition:persist />
+      </div>
     </div>
   </Container>
+
+  <span class="hud-corner hud-bl" aria-hidden="true"></span>
+  <span class="hud-corner hud-br" aria-hidden="true"></span>
+  <div class="xpbar" aria-hidden="true"></div>
 </header>
 
 <style>
+  .hud {
+    position: relative;
+  }
+  .hud-corner {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: hsl(var(--primary));
+    z-index: 1;
+  }
+  .hud-tl {
+    top: 6px;
+    left: 6px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+  }
+  .hud-tr {
+    top: 6px;
+    right: 6px;
+    border-top: 2px solid;
+    border-right: 2px solid;
+  }
+  .hud-bl {
+    bottom: 6px;
+    left: 6px;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+  }
+  .hud-br {
+    bottom: 6px;
+    right: 6px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+  }
+
   .nav-cmd {
-    @apply transition-colors duration-200;
+    transition:
+      color 0.2s,
+      text-shadow 0.2s;
+  }
+  .nav-cmd::before {
+    content: '▸';
+    position: absolute;
+    left: -0.95em;
+    opacity: 0;
+    color: hsl(var(--term-green));
+    transform: translateX(4px);
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
   }
   .nav-cmd:hover {
     color: hsl(var(--term-green));
+    text-shadow: 0 0 8px hsl(var(--term-green) / 0.5);
+  }
+  .nav-cmd:hover::before {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .online {
+    animation: hud-pulse 2s infinite;
+  }
+  @keyframes hud-pulse {
+    0% {
+      box-shadow: 0 0 0 0 hsl(var(--term-green) / 0.6);
+    }
+    70% {
+      box-shadow: 0 0 0 6px hsl(var(--term-green) / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 hsl(var(--term-green) / 0);
+    }
+  }
+
+  .xpbar {
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--term-green)),
+      hsl(var(--term-cyan)),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: xp 3.5s linear infinite;
+    opacity: 0.7;
+  }
+  @keyframes xp {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .online,
+    .xpbar {
+      animation: none;
+    }
   }
 </style>
