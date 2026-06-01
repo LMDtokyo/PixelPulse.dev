@@ -10,7 +10,7 @@ import Link from '@/components/Link.astro'
 import { formatDate, readingTime } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
-import type { MarkdownHeading } from 'astro'
+import type { ImageMetadata, MarkdownHeading } from 'astro'
 import TerminalWindow from '@/components/me/TerminalWindow.astro'
 import CommandLine from '@/components/me/CommandLine.astro'
 import SkillMeter from '@/components/me/SkillMeter.astro'
@@ -25,6 +25,7 @@ import {
   ROADMAP,
   MISSION,
   SOCIALS,
+  TERM_SECTIONS,
 } from '@/lib/profile'
 import '@/styles/terminal.css'
 
@@ -34,6 +35,7 @@ interface Props {
   title: string
   description: string
   image?: string
+  cover?: ImageMetadata
   date: Date
   body: string
   headings: MarkdownHeading[]
@@ -46,6 +48,7 @@ const {
   title,
   description,
   image,
+  cover,
   date,
   body,
   headings,
@@ -54,6 +57,17 @@ const {
   prevPost,
   nextPost,
 } = Astro.props
+
+// Build a complete ToC: terminal sections + the writeup's own headings (nested).
+const tocHeadings: MarkdownHeading[] = []
+for (const section of TERM_SECTIONS) {
+  tocHeadings.push({ depth: 2, slug: section.id, text: section.cmd })
+  if (section.id === 'writeup') {
+    for (const h of headings) {
+      tocHeadings.push({ depth: h.depth + 1, slug: h.slug, text: h.text })
+    }
+  }
+}
 ---
 
 <Layout title={title} description={description} image={image}>
@@ -68,7 +82,20 @@ const {
       class="col-start-2"
     />
 
-    <!-- standard post header (parity with other pages) -->
+    {
+      cover && (
+        <div class="col-span-full mx-auto w-full max-w-[1000px]">
+          <Image
+            src={cover}
+            alt={title}
+            width={1200}
+            height={630}
+            class="rounded-xl border object-cover shadow-[0_0_60px_-20px_hsl(var(--term-green)/0.35)]"
+          />
+        </div>
+      )
+    }
+
     <header class="col-start-2 flex flex-col gap-y-4 text-center">
       <h1
         class="glitch text-3xl font-bold tracking-tight sm:text-4xl"
@@ -90,7 +117,11 @@ const {
                   height={24}
                   class="rounded-full"
                 />
-                <Link href={`/me/${owner.name}`} underline class="text-foreground">
+                <Link
+                  href={`/authors/${owner.name}`}
+                  underline
+                  class="text-foreground"
+                >
                   {owner.name}
                 </Link>
               </span>
@@ -118,14 +149,13 @@ const {
 
     <PostNavigation prevPost={prevPost} nextPost={nextPost} baseUrl="/me/" />
 
-    {headings.length > 0 && <TableOfContents headings={headings} />}
+    <TableOfContents headings={tocHeadings} />
 
-    <!-- terminal body -->
     <div class="col-start-2">
       <TerminalWindow title={`${PROFILE.handle}@${PROFILE.host}: ~/profile`}>
         <BootSequence client:load lines={BOOT_LINES} />
 
-        <CommandLine cmd="whoami">
+        <CommandLine cmd="whoami" id="whoami">
           <p class="text-xs text-muted-foreground sm:text-sm">
             <span class="term-cyan">alias</span>={PROFILE.alias} · <span
               class="term-cyan">role</span
@@ -135,13 +165,13 @@ const {
           <p class="mt-3 max-w-prose text-foreground/90">{PROFILE.summary}</p>
         </CommandLine>
 
-        <CommandLine cmd="cat ./skills.json">
+        <CommandLine cmd="cat ./skills.json" id="skills">
           <div class="grid gap-3 sm:grid-cols-2 sm:gap-x-8">
             {SKILLS.map((skill) => <SkillMeter skill={skill} />)}
           </div>
         </CommandLine>
 
-        <CommandLine cmd="ls -la ./arsenal">
+        <CommandLine cmd="ls -la ./arsenal" id="arsenal">
           <div class="grid gap-4 sm:grid-cols-3">
             {
               ARSENAL.map((group) => (
@@ -162,7 +192,7 @@ const {
           </div>
         </CommandLine>
 
-        <CommandLine cmd="git log --oneline">
+        <CommandLine cmd="git log --oneline" id="log">
           <ul class="space-y-1.5">
             {
               ACHIEVEMENTS.map((entry) => (
@@ -175,7 +205,7 @@ const {
           </ul>
         </CommandLine>
 
-        <CommandLine cmd="cat ./roadmap.md">
+        <CommandLine cmd="cat ./roadmap.md" id="roadmap">
           <ul class="space-y-1.5">
             {
               ROADMAP.map((item) => (
@@ -198,7 +228,7 @@ const {
           </ul>
         </CommandLine>
 
-        <CommandLine cmd="./mission --statement">
+        <CommandLine cmd="./mission --statement" id="mission">
           <blockquote
             class="border-l-2 border-[hsl(var(--term-green))] pl-4 italic text-foreground/90"
           >
@@ -206,8 +236,7 @@ const {
           </blockquote>
         </CommandLine>
 
-        <!-- full original write-up (MDX body — feeds the ToC) -->
-        <CommandLine cmd="cat ./full-writeup.md">
+        <CommandLine cmd="cat ./full-writeup.md" id="writeup">
           <article
             class="prose prose-sm prose-neutral max-w-none dark:prose-invert prose-headings:term-green prose-a:!text-primary"
           >
@@ -215,7 +244,7 @@ const {
           </article>
         </CommandLine>
 
-        <CommandLine cmd="./shell">
+        <CommandLine cmd="./shell" id="shell">
           <TerminalPrompt
             client:visible
             user={PROFILE.handle}

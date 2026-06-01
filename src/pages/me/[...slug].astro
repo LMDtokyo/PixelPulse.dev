@@ -20,6 +20,7 @@ const ogImage = post.data.image?.src ?? '/static/1200x630.png'
   title={post.data.title}
   description={post.data.description}
   image={ogImage}
+  cover={post.data.image}
   date={post.data.date}
   body={post.body}
   tags={post.data.tags ?? []}

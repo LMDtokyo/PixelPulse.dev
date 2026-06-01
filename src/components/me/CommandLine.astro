@@ -3,11 +3,12 @@ interface Props {
   cmd: string
   user?: string
   host?: string
+  id?: string
 }
-const { cmd, user = 'lmdtokyo', host = 'pixelpulse' } = Astro.props
+const { cmd, user = 'lizi', host = 'pixelpulse', id } = Astro.props
 ---
 
-<div class="mt-8 first:mt-0">
+<div id={id} class="mt-8 scroll-mt-24 first:mt-0">
   <p class="flex flex-wrap items-baseline gap-x-2 font-mono">
     <span class="text-muted-foreground">
       <span class="term-green">{user}</span>@<span class="term-cyan">{host}</span
