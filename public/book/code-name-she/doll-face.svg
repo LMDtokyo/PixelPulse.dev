@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Фарфоровая кукла с пустыми стеклянными глазами и трещиной на щеке">
+  <defs>
+    <radialGradient id="p3bg" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#14100f"/>
+      <stop offset="100%" stop-color="#040303"/>
+    </radialGradient>
+    <radialGradient id="p3skin" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#f3e6da"/>
+      <stop offset="70%" stop-color="#d9c3b2"/>
+      <stop offset="100%" stop-color="#b59c8b"/>
+    </radialGradient>
+    <radialGradient id="p3eye" cx="40%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#cfe7ee"/>
+      <stop offset="55%" stop-color="#7d99a3"/>
+      <stop offset="100%" stop-color="#27343a"/>
+    </radialGradient>
+    <filter id="p3grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#p3bg)"/>
+  <rect x="0" y="430" width="800" height="8" fill="#1a1411"/>
+  <rect x="0" y="438" width="800" height="62" fill="#0a0807"/>
+  <path d="M400,96 q120,0 132,150 q8,108 -132,196 q-140,-88 -132,-196 q12,-150 132,-150 z" fill="#1a0f0c"/>
+  <ellipse cx="400" cy="262" rx="118" ry="150" fill="url(#p3skin)"/>
+  <g>
+    <circle cx="346" cy="248" r="30" fill="url(#p3eye)"/>
+    <circle cx="454" cy="248" r="30" fill="url(#p3eye)"/>
+    <circle cx="346" cy="250" r="12" fill="#0b0f11"/>
+    <circle cx="454" cy="250" r="12" fill="#0b0f11"/>
+    <circle cx="339" cy="240" r="5" fill="#f4fbfd" opacity="0.9"/>
+    <circle cx="447" cy="240" r="5" fill="#f4fbfd" opacity="0.9"/>
+  </g>
+  <ellipse cx="330" cy="300" rx="20" ry="12" fill="#e6a0a0" opacity="0.35"/>
+  <ellipse cx="470" cy="300" rx="20" ry="12" fill="#e6a0a0" opacity="0.35"/>
+  <path d="M376,330 q24,16 48,0" fill="none" stroke="#7c5b50" stroke-width="3" stroke-linecap="round"/>
+  <polyline points="454,212 470,250 458,288 478,330 462,372" fill="none" stroke="#8a7163" stroke-width="1.6" opacity="0.8"/>
+  <polyline points="470,250 488,262" fill="none" stroke="#8a7163" stroke-width="1.4" opacity="0.7"/>
+  <rect x="6" y="6" width="788" height="488" fill="none" stroke="#2c2420" stroke-width="2" rx="6"/>
+  <rect width="800" height="500" filter="url(#p3grain)" opacity="0.5"/>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Женщина на белом столе под конусом холодного света">
+  <defs>
+    <radialGradient id="p1bg" cx="50%" cy="2%" r="105%">
+      <stop offset="0%" stop-color="#121a20"/>
+      <stop offset="55%" stop-color="#080c0f"/>
+      <stop offset="100%" stop-color="#030405"/>
+    </radialGradient>
+    <linearGradient id="p1cone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d6eef5" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#d6eef5" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="p1grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#p1bg)"/>
+  <polygon points="400,-10 320,372 480,372" fill="url(#p1cone)" opacity="0.45"/>
+  <ellipse cx="400" cy="372" rx="160" ry="20" fill="#d6eef5" opacity="0.10"/>
+  <line x1="290" y1="372" x2="290" y2="446" stroke="#0d1318" stroke-width="9"/>
+  <line x1="510" y1="372" x2="510" y2="446" stroke="#0d1318" stroke-width="9"/>
+  <rect x="252" y="360" width="296" height="14" rx="3" fill="#1a2228"/>
+  <rect x="252" y="360" width="296" height="4" rx="2" fill="#33424c"/>
+  <g fill="#0a0e12">
+    <ellipse cx="322" cy="349" rx="15" ry="13"/>
+    <path d="M337,360 q70,-30 150,-18 q42,3 56,16 l-206,0 z"/>
+  </g>
+  <g stroke="#34cdb0" stroke-width="2.2" fill="none" opacity="0.6" stroke-linejoin="round">
+    <polyline points="110,250 300,250 332,250 346,212 360,294 374,250 470,250"/>
+    <line x1="470" y1="250" x2="800" y2="250"/>
+  </g>
+  <circle cx="470" cy="250" r="3" fill="#34cdb0" opacity="0.8"/>
+  <rect x="6" y="6" width="788" height="488" fill="none" stroke="#2a343d" stroke-width="2" rx="6"/>
+  <rect width="800" height="500" filter="url(#p1grain)" opacity="0.55"/>
+</svg>

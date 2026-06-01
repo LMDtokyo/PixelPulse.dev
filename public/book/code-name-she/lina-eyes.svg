@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Крупный план тёмных спокойных глаз женщины с отражением дождя">
+  <defs>
+    <radialGradient id="p4bg" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#0b0d12"/>
+      <stop offset="100%" stop-color="#020203"/>
+    </radialGradient>
+    <radialGradient id="p4iris" cx="42%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#26323b"/>
+      <stop offset="55%" stop-color="#121a20"/>
+      <stop offset="100%" stop-color="#050708"/>
+    </radialGradient>
+    <linearGradient id="p4refl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9fc6da" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#9fc6da" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="p4grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#p4bg)"/>
+  <path d="M0,0 H800 V120 q-200,70 -400,70 Q200,190 0,120 Z" fill="#070608"/>
+  <path d="M0,500 H800 V360 q-200,-70 -400,-70 Q200,290 0,360 Z" fill="#070608"/>
+  <path d="M120,250 q160,-110 260,0 q-130,86 -260,0 z" fill="#e9e2d8" opacity="0.06"/>
+  <path d="M420,250 q160,-110 260,0 q-130,86 -260,0 z" fill="#e9e2d8" opacity="0.06"/>
+  <g>
+    <circle cx="250" cy="250" r="58" fill="url(#p4iris)"/>
+    <circle cx="250" cy="250" r="26" fill="#040506"/>
+    <rect x="240" y="206" width="8" height="58" rx="4" fill="url(#p4refl)" opacity="0.7"/>
+    <rect x="256" y="216" width="4" height="40" rx="2" fill="url(#p4refl)" opacity="0.5"/>
+  </g>
+  <g>
+    <circle cx="550" cy="250" r="58" fill="url(#p4iris)"/>
+    <circle cx="550" cy="250" r="26" fill="#040506"/>
+    <rect x="540" y="206" width="8" height="58" rx="4" fill="url(#p4refl)" opacity="0.7"/>
+    <rect x="556" y="216" width="4" height="40" rx="2" fill="url(#p4refl)" opacity="0.5"/>
+  </g>
+  <g fill="none" stroke="#0a0a0c" stroke-width="9" stroke-linecap="round">
+    <path d="M150,224 q100,-66 200,0"/>
+    <path d="M450,224 q100,-66 200,0"/>
+  </g>
+  <g fill="none" stroke="#0a0a0c" stroke-width="6" stroke-linecap="round" opacity="0.9">
+    <path d="M158,286 q92,52 184,0"/>
+    <path d="M458,286 q92,52 184,0"/>
+  </g>
+  <rect x="6" y="6" width="788" height="488" fill="none" stroke="#22252c" stroke-width="2" rx="6"/>
+  <rect width="800" height="500" filter="url(#p4grain)" opacity="0.5"/>
+</svg>

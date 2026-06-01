@@ -189,7 +189,8 @@ const bookTitle = meta?.data.title ?? book
         column-gap: var(--gap);
         column-fill: auto;
         transform: translateX(0);
-        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+        transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
         font-family: Georgia, 'Times New Roman', serif;
         font-size: clamp(1rem, 1.35vw, 1.12rem);
         line-height: 1.75;
@@ -239,6 +240,35 @@ const bookTitle = meta?.data.title ?? book
       .pages :global(blockquote) {
         break-inside: avoid;
         max-width: 100%;
+      }
+
+      .pages :global(figure.panel) {
+        break-inside: avoid;
+        margin: 1.6rem 0;
+        text-align: center;
+      }
+      .pages :global(figure.panel img) {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 56vh;
+        object-fit: cover;
+        border: 1px solid hsl(var(--border));
+        border-radius: 10px;
+        box-shadow:
+          0 1px 0 hsl(0 0% 100% / 0.04) inset,
+          0 22px 48px -26px hsl(0 0% 0% / 0.9);
+        background: #06080a;
+      }
+      .pages :global(figure.panel figcaption) {
+        margin: 0.55rem 0 0;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.66rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: hsl(var(--muted-foreground));
+        text-indent: 0;
+        text-align: center;
       }
 
       .arrow {
@@ -344,6 +374,7 @@ const bookTitle = meta?.data.title ?? book
         let page = 0
         let total = 1
         let advance = 0
+        let measured = false
 
         function measure() {
           const cw = pages.clientWidth
@@ -352,17 +383,24 @@ const bookTitle = meta?.data.title ?? book
           const gap = parseFloat(getComputedStyle(pages).columnGap) || 0
           advance = cw + gap
           total = Math.max(1, Math.round((pages.scrollWidth + gap) / advance))
-          if (location.hash === '#end') {
-            page = total - 1
+          if (!measured) {
+            // глава всегда открывается с начала; с конца — только при переходе «назад»
+            page = location.hash === '#end' ? total - 1 : 0
+            measured = true
           } else {
-            const saved = parseInt(localStorage.getItem(key) || '0', 10)
-            page = Math.min(Number.isNaN(saved) ? 0 : saved, total - 1)
+            // повторный замер (ресайз, дозагрузка картинок) — позицию сохраняем
+            page = Math.min(page, total - 1)
           }
-          render()
+          render(true)
         }
 
-        function render() {
+        function render(instant = false) {
+          if (instant) pages.style.transition = 'none'
           pages.style.transform = `translateX(${-page * advance}px)`
+          if (instant) {
+            void pages.offsetWidth
+            pages.style.transition = ''
+          }
           counter.textContent = `${page + 1} / ${total}`
           fill.style.width = `${((page + 1) / total) * 100}%`
           localStorage.setItem(key, String(page))
@@ -421,6 +459,10 @@ const bookTitle = meta?.data.title ?? book
         window.addEventListener('resize', () => {
           clearTimeout(t)
           t = window.setTimeout(measure, 150)
+        })
+
+        pages.querySelectorAll('img').forEach((img) => {
+          if (!img.complete) img.addEventListener('load', () => measure(), { once: true })
         })
 
         if (document.fonts && document.fonts.ready) {

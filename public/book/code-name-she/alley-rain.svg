@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Человек на коленях в дождливом переулке над телом, в руке нож">
+  <defs>
+    <radialGradient id="p2bg" cx="50%" cy="50%" r="80%">
+      <stop offset="0%" stop-color="#0c1420"/>
+      <stop offset="100%" stop-color="#04070c"/>
+    </radialGradient>
+    <radialGradient id="p2lamp" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f4b85c" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#c8892f" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#c8892f" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="p2rain" width="24" height="44" patternUnits="userSpaceOnUse" patternTransform="rotate(14)">
+      <line x1="2" y1="0" x2="2" y2="28" stroke="#9cc0d6" stroke-width="1" opacity="0.22"/>
+      <line x1="14" y1="10" x2="14" y2="32" stroke="#9cc0d6" stroke-width="1" opacity="0.14"/>
+    </pattern>
+    <filter id="p2grain"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#p2bg)"/>
+  <rect width="800" height="220" x="430" y="-30" fill="url(#p2lamp)"/>
+  <g stroke="#1c2530" stroke-width="10">
+    <line x1="640" y1="40" x2="640" y2="470"/>
+  </g>
+  <rect x="600" y="44" width="80" height="26" rx="6" fill="#1c2530"/>
+  <circle cx="640" cy="57" r="9" fill="#f4b85c" opacity="0.85"/>
+  <rect width="800" height="500" fill="url(#p2rain)"/>
+  <rect x="0" y="392" width="800" height="108" fill="#05080c"/>
+  <ellipse cx="360" cy="452" rx="240" ry="30" fill="#0e1822"/>
+  <ellipse cx="430" cy="455" rx="120" ry="14" fill="#f4b85c" opacity="0.16"/>
+  <path d="M170,440 l300,-6 q14,0 14,8 l0,10 -330,2 z" fill="#070a0e"/>
+  <ellipse cx="455" cy="436" rx="22" ry="9" fill="#070a0e"/>
+  <g fill="#05080b">
+    <path d="M300,300 q40,-26 70,-6 q30,18 26,60 q-2,30 -16,58 l-96,2 q-8,-44 4,-86 q6,-22 8,-28 z"/>
+    <ellipse cx="332" cy="286" rx="22" ry="20"/>
+  </g>
+  <line x1="356" y1="392" x2="392" y2="430" stroke="#cfe6f2" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="388,426 398,432 392,436" fill="#eaf4fa"/>
+  <rect x="6" y="6" width="788" height="488" fill="none" stroke="#222d38" stroke-width="2" rx="6"/>
+  <rect width="800" height="500" filter="url(#p2grain)" opacity="0.55"/>
+</svg>

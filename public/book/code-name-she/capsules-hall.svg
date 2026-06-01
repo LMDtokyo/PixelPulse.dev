@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Зал с рядами светящихся капсул, уходящих в темноту, и одинокая фигура">
+  <defs>
+    <radialGradient id="p5bg" cx="50%" cy="46%" r="65%">
+      <stop offset="0%" stop-color="#06181b"/>
+      <stop offset="60%" stop-color="#04090c"/>
+      <stop offset="100%" stop-color="#010304"/>
+    </radialGradient>
+    <linearGradient id="p5cap" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#39e0c6" stop-opacity="0.55"/>
+      <stop offset="50%" stop-color="#19a89a" stop-opacity="0.0"/>
+      <stop offset="100%" stop-color="#39e0c6" stop-opacity="0.4"/>
+    </linearGradient>
+    <radialGradient id="p5glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#46f0d4" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#46f0d4" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="p5grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.05"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#p5bg)"/>
+  <g stroke="#0e2a2c" stroke-width="2" opacity="0.7">
+    <line x1="0" y1="500" x2="400" y2="250"/>
+    <line x1="800" y1="500" x2="400" y2="250"/>
+    <line x1="0" y1="0" x2="400" y2="250"/>
+    <line x1="800" y1="0" x2="400" y2="250"/>
+  </g>
+  <ellipse cx="400" cy="250" rx="60" ry="44" fill="url(#p5glow)" opacity="0.5"/>
+  <g>
+    <g transform="translate(60,150)"><rect width="56" height="210" rx="26" fill="#0a1417" stroke="#1d4d4a" stroke-width="2"/><rect x="10" y="14" width="36" height="182" rx="16" fill="url(#p5cap)"/></g>
+    <g transform="translate(170,176)"><rect width="44" height="160" rx="20" fill="#0a1417" stroke="#1d4d4a" stroke-width="2"/><rect x="8" y="12" width="28" height="136" rx="12" fill="url(#p5cap)"/></g>
+    <g transform="translate(258,196)"><rect width="32" height="118" rx="15" fill="#0a1417" stroke="#1d4d4a" stroke-width="1.6"/><rect x="6" y="10" width="20" height="98" rx="9" fill="url(#p5cap)"/></g>
+    <g transform="translate(322,210)"><rect width="22" height="86" rx="11" fill="#0a1417" stroke="#1d4d4a" stroke-width="1.4"/><rect x="4" y="7" width="14" height="72" rx="6" fill="url(#p5cap)"/></g>
+  </g>
+  <g>
+    <g transform="translate(684,150)"><rect width="56" height="210" rx="26" fill="#0a1417" stroke="#1d4d4a" stroke-width="2"/><rect x="10" y="14" width="36" height="182" rx="16" fill="url(#p5cap)"/></g>
+    <g transform="translate(586,176)"><rect width="44" height="160" rx="20" fill="#0a1417" stroke="#1d4d4a" stroke-width="2"/><rect x="8" y="12" width="28" height="136" rx="12" fill="url(#p5cap)"/></g>
+    <g transform="translate(510,196)"><rect width="32" height="118" rx="15" fill="#0a1417" stroke="#1d4d4a" stroke-width="1.6"/><rect x="6" y="10" width="20" height="98" rx="9" fill="url(#p5cap)"/></g>
+    <g transform="translate(456,210)"><rect width="22" height="86" rx="11" fill="#0a1417" stroke="#1d4d4a" stroke-width="1.4"/><rect x="4" y="7" width="14" height="72" rx="6" fill="url(#p5cap)"/></g>
+  </g>
+  <g fill="#040a0b">
+    <ellipse cx="400" cy="300" rx="11" ry="11"/>
+    <path d="M389,312 q11,-9 22,0 q6,30 2,74 l-26,0 q-4,-44 2,-74 z"/>
+  </g>
+  <rect x="6" y="6" width="788" height="488" fill="none" stroke="#163a3a" stroke-width="2" rx="6"/>
+  <rect width="800" height="500" filter="url(#p5grain)" opacity="0.5"/>
+</svg>
