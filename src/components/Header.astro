@@ -3,58 +3,43 @@ import Container from '@/components/Container.astro'
 import Link from '@/components/Link.astro'
 import MobileMenu from '@/components/ui/mobile-menu'
 import { NAV_LINKS } from '@/consts'
-import { Image } from 'astro:assets'
-import logo from '../../public/static/logo.webp'
+import { PROFILE } from '@/lib/profile'
 ---
 
 <header
-  class="sticky top-0 z-10 border-b border-border bg-background/30 backdrop-blur-md transition-colors duration-300"
+  class="sticky top-0 z-20 border-b border-border bg-background/70 font-mono backdrop-blur"
 >
   <Container>
-    <div class="flex flex-wrap items-center justify-between gap-4 py-4">
-      <Link href="/" class="flex items-center gap-2">
-        <Image
-          src={logo}
-          alt="Logo"
-          class="size-8 rounded-full border border-border shadow-sm transition-transform duration-300 hover:scale-110"
-        />
-        <span
-          class="hidden text-sm text-muted-foreground transition-colors duration-300 hover:text-primary sm:inline"
-        >
-          LMDtokyo Labs
+    <div class="flex items-center justify-between gap-4 py-3 text-sm">
+      <Link href="/" class="flex items-center whitespace-nowrap">
+        <span class="text-muted-foreground">
+          <span class="term-green">{PROFILE.handle}</span>@<span
+            class="term-cyan">{PROFILE.host}</span
+          >:<span class="text-primary">~</span>$
         </span>
+        <span class="term-caret ml-1.5" aria-hidden="true"></span>
       </Link>
-      <div class="flex items-center gap-2 sm:gap-4">
-        <nav class="hidden items-center gap-4 sm:flex sm:gap-6">
-          {
-            NAV_LINKS.map((item) => (
-              <Link href={item.href} class="nav-link capitalize">
-                {item.label}
-              </Link>
-            ))
-          }
-        </nav>
-        <MobileMenu client:load transition:persist />
-      </div>
+
+      <nav class="hidden items-center gap-x-4 sm:flex">
+        {
+          NAV_LINKS.map((item) => (
+            <Link href={item.href} class="nav-cmd text-muted-foreground">
+              <span class="text-primary/50">cd</span> {item.label}
+            </Link>
+          ))
+        }
+      </nav>
+
+      <MobileMenu client:load transition:persist />
     </div>
   </Container>
 </header>
 
 <style>
-  .nav-link {
-    @apply relative text-sm text-muted-foreground transition-colors duration-300;
+  .nav-cmd {
+    @apply transition-colors duration-200;
   }
-
-  .nav-link:hover {
-    @apply text-primary;
-  }
-
-  .nav-link::after {
-    content: '';
-    @apply absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-primary transition-transform duration-300;
-  }
-
-  .nav-link:hover::after {
-    @apply scale-x-100;
+  .nav-cmd:hover {
+    color: hsl(var(--term-green));
   }
 </style>

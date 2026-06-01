@@ -1,8 +1,6 @@
 ---
-import Link from '@/components/Link.astro'
-import PostLayout from '@/layouts/PostLayout.astro'
-import { getAdjacentPosts, sortByDate } from '@/lib/collections'
-import { Image } from 'astro:assets'
+import TerminalProfileLayout from '@/layouts/TerminalProfileLayout.astro'
+import { sortByDate } from '@/lib/collections'
 import { type CollectionEntry, getCollection } from 'astro:content'
 
 export async function getStaticPaths() {
@@ -11,41 +9,15 @@ export async function getStaticPaths() {
 }
 type Props = CollectionEntry<'me'>
 
-const posts = sortByDate(await getCollection('me'))
 const post = Astro.props
-const { prev, next } = getAdjacentPosts(posts, post.slug)
-const { Content, headings } = await post.render()
+const ogImage = post.data.image?.src ?? '/static/1200x630.png'
+const { Content } = await post.render()
 ---
 
-<PostLayout
+<TerminalProfileLayout
   title={post.data.title}
   description={post.data.description}
-  image={post.data.image}
-  parent={{ href: '/me', label: 'me' }}
-  baseUrl="/me/"
-  date={post.data.date}
-  body={post.body}
-  tags={post.data.tags ?? []}
-  headings={headings}
-  prevPost={prev}
-  nextPost={next}
+  image={ogImage}
 >
-  <div slot="author" class="flex items-center gap-x-1.5">
-    <Image
-      src={post.data.owner.avatar}
-      alt={post.data.owner.name}
-      width={24}
-      height={24}
-      class="rounded-full"
-    />
-    <Link
-      href={`/me/${post.data.owner.name}`}
-      underline
-      class="text-foreground"
-    >
-      <span>{post.data.owner.name}</span>
-    </Link>
-  </div>
-
   <Content />
-</PostLayout>
+</TerminalProfileLayout>

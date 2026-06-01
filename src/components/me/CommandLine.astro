@@ -1,0 +1,21 @@
+---
+interface Props {
+  cmd: string
+  user?: string
+  host?: string
+}
+const { cmd, user = 'lmdtokyo', host = 'pixelpulse' } = Astro.props
+---
+
+<div class="mt-8 first:mt-0">
+  <p class="flex flex-wrap items-baseline gap-x-2 font-mono">
+    <span class="text-muted-foreground">
+      <span class="term-green">{user}</span>@<span class="term-cyan">{host}</span
+      >:<span class="text-primary">~</span>$
+    </span>
+    <span class="term-amber">{cmd}</span>
+  </p>
+  <div class="mt-2 pl-0 sm:pl-4">
+    <slot />
+  </div>
+</div>

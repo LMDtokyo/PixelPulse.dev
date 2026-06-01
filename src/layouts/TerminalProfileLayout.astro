@@ -1,0 +1,168 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import TerminalWindow from '@/components/me/TerminalWindow.astro'
+import CommandLine from '@/components/me/CommandLine.astro'
+import SkillMeter from '@/components/me/SkillMeter.astro'
+import BootSequence from '@/components/me/BootSequence.tsx'
+import TerminalPrompt from '@/components/me/TerminalPrompt.tsx'
+import {
+  PROFILE,
+  BOOT_LINES,
+  SKILLS,
+  ARSENAL,
+  ACHIEVEMENTS,
+  ROADMAP,
+  MISSION,
+  SOCIALS,
+} from '@/lib/profile'
+import '@/styles/terminal.css'
+
+interface Props {
+  title: string
+  description: string
+  image?: string
+}
+const { title, description, image } = Astro.props
+const hasBody = Astro.slots.has('default')
+---
+
+<Layout title={title} description={description} image={image}>
+  <div class="terminal-root mx-auto w-full max-w-3xl px-4 pb-16">
+    <Breadcrumbs
+      items={[
+        { href: '/me', label: 'me', icon: 'lucide:archive' },
+        { label: 'profile', icon: 'lucide:terminal' },
+      ]}
+      class="mb-6"
+    />
+
+    <TerminalWindow title={`${PROFILE.handle}@${PROFILE.host}: ~/profile`}>
+      <!-- boot -->
+      <BootSequence client:load lines={BOOT_LINES} />
+
+      <!-- whoami -->
+      <CommandLine cmd="whoami">
+        <h1
+          class="glitch text-2xl font-bold tracking-tight sm:text-4xl"
+          data-text={PROFILE.handle}
+        >
+          {PROFILE.handle}
+        </h1>
+        <p class="mt-1 text-xs text-muted-foreground sm:text-sm">
+          <span class="term-cyan">alias</span>={PROFILE.alias} · <span
+            class="term-cyan">role</span
+          >={PROFILE.role} · <span class="term-cyan">loc</span>={PROFILE.location}
+          · <span class="term-cyan">status</span>={PROFILE.status}
+        </p>
+        <p class="mt-3 max-w-prose text-foreground/90">{PROFILE.summary}</p>
+      </CommandLine>
+
+      <!-- skills -->
+      <CommandLine cmd="cat ./skills.json">
+        <div class="grid gap-3 sm:grid-cols-2 sm:gap-x-8">
+          {SKILLS.map((skill) => <SkillMeter skill={skill} />)}
+        </div>
+      </CommandLine>
+
+      <!-- arsenal -->
+      <CommandLine cmd="ls -la ./arsenal">
+        <div class="grid gap-4 sm:grid-cols-3">
+          {
+            ARSENAL.map((group) => (
+              <div>
+                <p class="mb-1.5 text-xs uppercase tracking-wider term-green">
+                  ./{group.label}
+                </p>
+                <ul class="space-y-1">
+                  {group.items.map((item) => (
+                    <li class="text-foreground/90">
+                      <span class="term-dim">›</span> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </CommandLine>
+
+      <!-- achievements -->
+      <CommandLine cmd="git log --oneline">
+        <ul class="space-y-1.5">
+          {
+            ACHIEVEMENTS.map((entry) => (
+              <li class="flex gap-x-3">
+                <span class="term-amber">{entry.hash}</span>
+                <span class="text-foreground/90">{entry.msg}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </CommandLine>
+
+      <!-- roadmap -->
+      <CommandLine cmd="cat ./roadmap.md">
+        <ul class="space-y-1.5">
+          {
+            ROADMAP.map((item) => (
+              <li class="flex items-start gap-x-2">
+                <span class={item.done ? 'term-green' : 'term-dim'}>
+                  [{item.done ? 'x' : ' '}]
+                </span>
+                <span
+                  class={
+                    item.done
+                      ? 'text-muted-foreground line-through'
+                      : 'text-foreground/90'
+                  }
+                >
+                  {item.text}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </CommandLine>
+
+      <!-- mission -->
+      <CommandLine cmd="./mission --statement">
+        <blockquote
+          class="border-l-2 border-[hsl(var(--term-green))] pl-4 text-foreground/90 italic"
+        >
+          {MISSION}
+        </blockquote>
+      </CommandLine>
+
+      <!-- full original write-up (MDX body) -->
+      {
+        hasBody && (
+          <CommandLine cmd="cat ./full-writeup.md">
+            <article class="prose prose-sm prose-neutral max-w-none dark:prose-invert prose-headings:term-green prose-a:!text-primary">
+              <slot />
+            </article>
+          </CommandLine>
+        )
+      }
+
+      <!-- interactive -->
+      <CommandLine cmd="./shell">
+        <TerminalPrompt
+          client:visible
+          user={PROFILE.handle}
+          host={PROFILE.host}
+          summary={PROFILE.summary}
+          skills={SKILLS.map((s) => s.name)}
+          socials={SOCIALS}
+        />
+      </CommandLine>
+    </TerminalWindow>
+
+    <a
+      href="/me"
+      class="mt-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+    >
+      ← cd ../me
+    </a>
+  </div>
+</Layout>

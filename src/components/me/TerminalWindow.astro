@@ -1,0 +1,32 @@
+---
+interface Props {
+  title?: string
+}
+const { title = 'lmdtokyo@pixelpulse: ~' } = Astro.props
+---
+
+<div
+  class="crt-flicker relative overflow-hidden rounded-xl border border-border bg-[hsl(var(--term-bg))] shadow-[0_0_60px_-15px_hsl(var(--term-green)/0.25)]"
+>
+  <!-- title bar -->
+  <div
+    class="flex items-center gap-2 border-b border-border bg-secondary/40 px-4 py-2.5"
+  >
+    <div class="flex gap-1.5" aria-hidden="true">
+      <span class="size-3 rounded-full bg-[hsl(0_70%_55%)]"></span>
+      <span class="size-3 rounded-full bg-[hsl(45_90%_55%)]"></span>
+      <span class="size-3 rounded-full bg-[hsl(122_60%_45%)]"></span>
+    </div>
+    <span class="flex-grow text-center text-xs text-muted-foreground">
+      {title}
+    </span>
+    <span class="text-xs term-green" aria-hidden="true">● rec</span>
+  </div>
+
+  <!-- body -->
+  <div class="relative px-4 py-6 text-sm leading-relaxed sm:px-6 sm:py-8">
+    <slot />
+  </div>
+
+  <div class="crt-overlay" aria-hidden="true"></div>
+</div>

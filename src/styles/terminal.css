@@ -1,0 +1,206 @@
+/* Hacker terminal aesthetic — scoped under .terminal-root so it never leaks site-wide. */
+
+.terminal-root {
+  --term-green: 122 100% 62%;
+  --term-green-dim: 122 45% 45%;
+  --term-amber: 34 54% 81%;
+  --term-cyan: 187 85% 60%;
+  --term-bg: 0 0% 2.5%;
+  --term-line: 122 100% 62%;
+
+  color: hsl(var(--foreground));
+}
+
+.term-green {
+  color: hsl(var(--term-green));
+}
+.term-dim {
+  color: hsl(var(--muted-foreground));
+}
+.term-amber {
+  color: hsl(var(--term-amber));
+}
+.term-cyan {
+  color: hsl(var(--term-cyan));
+}
+
+/* --- CRT scanline + vignette overlay --- */
+.crt-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  border-radius: inherit;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      hsl(0 0% 0% / 0) 0px,
+      hsl(0 0% 0% / 0) 2px,
+      hsl(0 0% 0% / 0.28) 3px,
+      hsl(0 0% 0% / 0) 4px
+    );
+  mix-blend-mode: multiply;
+}
+
+.crt-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    120% 120% at 50% 50%,
+    transparent 55%,
+    hsl(0 0% 0% / 0.55) 100%
+  );
+}
+
+/* moving scan beam */
+.crt-overlay::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 28%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    hsl(var(--term-green) / 0.05),
+    transparent
+  );
+  animation: scan-beam 7s linear infinite;
+}
+
+@keyframes scan-beam {
+  0% {
+    top: -30%;
+  }
+  100% {
+    top: 130%;
+  }
+}
+
+/* subtle phosphor flicker */
+.crt-flicker {
+  animation: flicker 4.5s infinite steps(60);
+}
+@keyframes flicker {
+  0%,
+  97%,
+  100% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 0.92;
+  }
+  99% {
+    opacity: 0.97;
+  }
+}
+
+/* --- blinking cursor --- */
+.term-cursor::after {
+  content: '▋';
+  margin-left: 0.15ch;
+  color: hsl(var(--term-green));
+  animation: blink 1.05s steps(1) infinite;
+}
+.term-caret {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.05em;
+  translate: 0 0.18em;
+  background: hsl(var(--term-green));
+  animation: blink 1.05s steps(1) infinite;
+}
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* --- glitch headline --- */
+.glitch {
+  position: relative;
+  color: hsl(var(--foreground));
+  text-shadow: 0 0 12px hsl(var(--term-green) / 0.35);
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 0);
+}
+.glitch::before {
+  left: 2px;
+  text-shadow: -1px 0 hsl(var(--term-cyan));
+  animation: glitch-a 2.6s infinite linear alternate-reverse;
+}
+.glitch::after {
+  left: -2px;
+  text-shadow: -1px 0 hsl(0 90% 60%);
+  animation: glitch-b 3.4s infinite linear alternate-reverse;
+}
+@keyframes glitch-a {
+  0%,
+  92%,
+  100% {
+    clip-path: inset(0 0 100% 0);
+  }
+  93% {
+    clip-path: inset(10% 0 60% 0);
+  }
+  96% {
+    clip-path: inset(45% 0 35% 0);
+  }
+}
+@keyframes glitch-b {
+  0%,
+  90%,
+  100% {
+    clip-path: inset(100% 0 0 0);
+  }
+  91% {
+    clip-path: inset(55% 0 20% 0);
+  }
+  97% {
+    clip-path: inset(20% 0 65% 0);
+  }
+}
+
+/* skill meter fill */
+.skill-meter {
+  animation: meter-grow 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes meter-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* respect reduced motion — kill all the flashy bits */
+@media (prefers-reduced-motion: reduce) {
+  .crt-overlay::before,
+  .crt-flicker,
+  .term-cursor::after,
+  .term-caret,
+  .glitch::before,
+  .glitch::after,
+  .skill-meter {
+    animation: none !important;
+  }
+  .term-caret {
+    opacity: 1;
+  }
+  .skill-meter {
+    transform: none;
+  }
+}
