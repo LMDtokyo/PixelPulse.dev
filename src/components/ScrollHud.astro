@@ -1,0 +1,203 @@
+---
+import { NAV_LINKS } from '@/consts'
+---
+
+<div
+  id="scroll-hud"
+  class="pointer-events-none fixed left-1/2 top-3 z-30 -translate-x-1/2 font-mono opacity-0 transition-all duration-300"
+  aria-hidden="true"
+>
+  <div
+    class="hud-cap relative flex items-center gap-3 rounded-full border border-border bg-background/80 py-1.5 pl-1.5 pr-3 backdrop-blur"
+  >
+    <span class="cap-corner cap-tl"></span>
+    <span class="cap-corner cap-br"></span>
+
+    <button
+      id="hud-top"
+      type="button"
+      title="back to top"
+      aria-label="Scroll to top"
+      class="relative grid size-9 place-items-center"
+    >
+      <svg class="size-9 -rotate-90" viewBox="0 0 40 40">
+        <circle
+          cx="20"
+          cy="20"
+          r="16"
+          fill="none"
+          stroke="hsl(var(--secondary))"
+          stroke-width="3"></circle>
+        <circle
+          id="hud-ring"
+          cx="20"
+          cy="20"
+          r="16"
+          fill="none"
+          stroke="hsl(var(--term-green))"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-dasharray="100.53"
+          stroke-dashoffset="100.53"></circle>
+      </svg>
+      <span class="absolute term-green transition-transform group-hover:-translate-y-0.5"
+        >▲</span
+      >
+    </button>
+
+    <div class="flex min-w-0 flex-col leading-tight">
+      <span class="text-[10px] text-muted-foreground">
+        <span class="term-green">{'>'}</span> cd ~/<span id="hud-section"
+          >home</span
+        ><span class="term-caret ml-0.5"></span>
+      </span>
+      <span class="text-[10px] text-muted-foreground/60">
+        <span id="hud-pct">0%</span> loaded
+      </span>
+    </div>
+
+    <button
+      id="hud-menu-btn"
+      type="button"
+      aria-label="Open navigation"
+      class="ml-1 grid size-8 place-items-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+    >
+      ≡
+    </button>
+
+    <nav
+      id="hud-menu"
+      class="absolute right-0 top-full mt-2 hidden min-w-40 flex-col gap-1 rounded-xl border border-border bg-background/95 p-2 text-sm backdrop-blur"
+    >
+      {
+        NAV_LINKS.map((item) => (
+          <a
+            href={item.href}
+            class="hud-link rounded-md px-2 py-1 text-muted-foreground transition-colors hover:bg-secondary/50 hover:text-primary"
+          >
+            <span class="text-primary/50">cd</span> {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</div>
+
+<style>
+  #scroll-hud {
+    transform: translate(-50%, -1rem);
+  }
+  #scroll-hud.is-visible {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  .cap-corner {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-color: hsl(var(--primary));
+  }
+  .cap-tl {
+    top: -2px;
+    left: -2px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+  }
+  .cap-br {
+    bottom: -2px;
+    right: -2px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+  }
+  #hud-top:hover #hud-ring {
+    stroke: hsl(var(--term-cyan));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #scroll-hud {
+      transition: opacity 0.2s;
+    }
+  }
+</style>
+
+<script>
+  const CIRCUMFERENCE = 2 * Math.PI * 16
+  const THRESHOLD = 140
+
+  let header: HTMLElement | null = null
+  let hud: HTMLElement | null = null
+  let ring: SVGCircleElement | null = null
+  let pct: HTMLElement | null = null
+  let sectionLabel: HTMLElement | null = null
+  let observer: IntersectionObserver | null = null
+  let bound = false
+
+  function onScroll() {
+    if (!hud) return
+    const y = window.scrollY
+    const docHeight =
+      document.documentElement.scrollHeight - window.innerHeight
+    const progress = docHeight > 0 ? Math.min(y / docHeight, 1) : 0
+
+    if (ring) ring.style.strokeDashoffset = String(CIRCUMFERENCE * (1 - progress))
+    if (pct) pct.textContent = `${Math.round(progress * 100)}%`
+
+    const active = y > THRESHOLD
+    header?.classList.toggle('header-hidden', active)
+    hud.classList.toggle('is-visible', active)
+  }
+
+  function observeSections() {
+    observer?.disconnect()
+    const headings = Array.from(
+      document.querySelectorAll<HTMLElement>('main h2, main h1'),
+    )
+    if (!sectionLabel) return
+    if (headings.length === 0) {
+      const title = document.title.split('|')[0].trim().toLowerCase()
+      sectionLabel.textContent = title || 'home'
+      return
+    }
+    observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const text = (entry.target.textContent || '').trim()
+            if (text && sectionLabel)
+              sectionLabel.textContent = text.toLowerCase().slice(0, 28)
+          }
+        }
+      },
+      { rootMargin: '-10% 0px -80% 0px', threshold: 0 },
+    )
+    headings.forEach((h) => observer!.observe(h))
+  }
+
+  function setup() {
+    header = document.getElementById('site-header')
+    hud = document.getElementById('scroll-hud')
+    ring = document.getElementById('hud-ring') as SVGCircleElement | null
+    pct = document.getElementById('hud-pct')
+    sectionLabel = document.getElementById('hud-section')
+
+    const topBtn = document.getElementById('hud-top')
+    topBtn?.addEventListener('click', () =>
+      window.scrollTo({ top: 0, behavior: 'smooth' }),
+    )
+
+    const menuBtn = document.getElementById('hud-menu-btn')
+    const menu = document.getElementById('hud-menu')
+    menuBtn?.addEventListener('click', () => menu?.classList.toggle('hidden'))
+    menu?.classList.add('hidden')
+
+    observeSections()
+    onScroll()
+
+    if (!bound) {
+      window.addEventListener('scroll', onScroll, { passive: true })
+      bound = true
+    }
+  }
+
+  document.addEventListener('astro:page-load', setup)
+</script>

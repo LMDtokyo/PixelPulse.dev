@@ -7,7 +7,8 @@ import { PROFILE } from '@/lib/profile'
 ---
 
 <header
-  class="hud sticky top-0 z-20 border-b border-border bg-background/70 font-mono backdrop-blur"
+  id="site-header"
+  class="hud sticky top-0 z-20 border-b border-border bg-background/70 font-mono backdrop-blur transition-transform duration-300 will-change-transform"
 >
   <span class="hud-corner hud-tl" aria-hidden="true"></span>
   <span class="hud-corner hud-tr" aria-hidden="true"></span>
@@ -65,6 +66,9 @@ import { PROFILE } from '@/lib/profile'
 <style>
   .hud {
     position: relative;
+  }
+  #site-header.header-hidden {
+    transform: translateY(-110%);
   }
   .hud-corner {
     position: absolute;

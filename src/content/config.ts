@@ -47,8 +47,20 @@ const books = defineCollection({
       pages: z.number(),
       lang: z.string(),
       status: z.string(),
+      download: z.string().url().optional(),
+      bookId: z.string().optional(),
       draft: z.boolean()
     }),
+})
+
+const chapters = defineCollection({
+  type: 'content',
+  schema: z.object({
+    book: z.string(),
+    order: z.number(),
+    title: z.string(),
+    part: z.string().optional(),
+  }),
 })
 
 const news = defineCollection({
@@ -88,17 +100,6 @@ const me = defineCollection({
     }),
 })
 
-const about = defineCollection({
-  type: 'content',
-  schema: ({ image }) =>
-    z.object({
-      image: image().optional(),
-      date: z.coerce.date(),
-      title: z.string(),
-      description: z.string(),
-    }),
-})
-
 const projects = defineCollection({
   type: 'content',
   schema: ({ image }) =>
@@ -114,4 +115,4 @@ const projects = defineCollection({
     }),
 })
 
-export const collections = { blog, authors, projects, books, news, me, about }
+export const collections = { blog, authors, projects, books, chapters, news, me }

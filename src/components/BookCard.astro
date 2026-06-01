@@ -3,7 +3,8 @@ import AvatarComponent from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { formatDate, readingTime } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
@@ -40,15 +41,24 @@ const readTime = readingTime(entry.body)
                 }
             </Link>
 
-            <div class="flex flex-row justify-between itmes-center gap-2 mt-1">
-                <Button variant="secondary" size="sm">
-                    <Icon
-                        name="lucide:download"
-                        class="mr-2 size-4 -translate-x-0.5"
-                    />
-                    Download
-                </Button>
-                <div class="flex flex-row justify-center items-center gap-3">
+            <div class="mt-1 flex flex-row items-center justify-between gap-2">
+                {
+                    entry.data.download ? (
+                        <a
+                            href={entry.data.download}
+                            download
+                            class={cn(buttonVariants({ variant: 'secondary', size: 'sm' }))}
+                        >
+                            <Icon name="lucide:download" class="mr-2 size-4 -translate-x-0.5" />
+                            Download
+                        </a>
+                    ) : (
+                        <Badge variant="secondary" showHash={false} className="capitalize">
+                            {entry.data.status}
+                        </Badge>
+                    )
+                }
+                <div class="flex flex-row items-center justify-center gap-3">
                     <Badge variant="outline" showHash={false}>{entry.data.lang}</Badge>
                     <Separator orientation="vertical" className="h-4" />
                     <Badge variant="outline" showHash={false}>{entry.data.pages} page</Badge>

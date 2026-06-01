@@ -212,3 +212,66 @@
     }
   }
 }
+
+/* now-playing equalizer */
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+.eq i {
+  width: 2px;
+  height: 30%;
+  background: hsl(var(--term-green, 122 100% 62%));
+  animation: eq 0.9s ease-in-out infinite;
+}
+.eq i:nth-child(2) {
+  animation-delay: 0.25s;
+}
+.eq i:nth-child(3) {
+  animation-delay: 0.5s;
+}
+.eq i:nth-child(4) {
+  animation-delay: 0.15s;
+}
+@keyframes eq {
+  0%,
+  100% {
+    height: 25%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eq i {
+    animation: none;
+    height: 60%;
+  }
+}
+
+/* now-playing spectrum visualizer */
+.viz {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 16px;
+}
+.viz i {
+  width: 2px;
+  height: 30%;
+  border-radius: 1px;
+  background: linear-gradient(
+    to top,
+    hsl(var(--term-green, 122 100% 62%)),
+    hsl(var(--term-cyan, 187 85% 60%))
+  );
+  animation: eq 1s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .viz i {
+    animation: none;
+    height: 55%;
+  }
+}

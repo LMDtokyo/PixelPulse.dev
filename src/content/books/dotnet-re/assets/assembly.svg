@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" font-family="'JetBrains Mono', monospace">
+  <rect width="760" height="440" rx="14" fill="#0d0d0d" stroke="#262626"/>
+  <text x="28" y="40" fill="#8a8a8a" font-size="13" letter-spacing="3">ANATOMY OF A .NET ASSEMBLY (PE)</text>
+
+  <!-- layered stack -->
+  <g font-size="13">
+    <rect x="40" y="64"  width="380" height="48" rx="8" fill="#121212" stroke="#404040"/>
+    <text x="60" y="93" fill="#e5e5e5">DOS + PE headers</text>
+    <text x="404" y="93" fill="#5a5a5a" text-anchor="end">MZ · 0x5A4D</text>
+
+    <rect x="40" y="120" width="380" height="48" rx="8" fill="#121212" stroke="#56b6c2"/>
+    <text x="60" y="149" fill="#56b6c2">CLR header (COR20)</text>
+    <text x="404" y="149" fill="#5a5a5a" text-anchor="end">entry · flags</text>
+
+    <rect x="40" y="176" width="380" height="120" rx="8" fill="#121212" stroke="#e2c08d"/>
+    <text x="60" y="203" fill="#e2c08d">Metadata</text>
+    <text x="60" y="226" fill="#8a8a8a" font-size="12">tables: Type / Method / Field …</text>
+    <text x="60" y="248" fill="#8a8a8a" font-size="12">#Strings · #US (literals) · #Blob · #GUID</text>
+    <text x="60" y="276" fill="#5a5a5a" font-size="12">tokens → 0x06000123 = MethodDef</text>
+
+    <rect x="40" y="304" width="380" height="48" rx="8" fill="#121212" stroke="#3fcf4e"/>
+    <text x="60" y="333" fill="#3fcf4e">IL (bytecode)</text>
+    <text x="404" y="333" fill="#5a5a5a" text-anchor="end">JIT → native</text>
+
+    <rect x="40" y="360" width="380" height="44" rx="8" fill="#121212" stroke="#404040"/>
+    <text x="60" y="387" fill="#8a8a8a">native code (mixed-mode, optional)</text>
+  </g>
+
+  <!-- side annotations -->
+  <g font-size="12" fill="#8a8a8a">
+    <path d="M420 144 H470" stroke="#404040"/>
+    <text x="478" y="148">диагностируем: diec</text>
+    <path d="M420 236 H470" stroke="#404040"/>
+    <text x="478" y="240">читаем: dnSpy / ILSpy</text>
+    <path d="M420 328 H470" stroke="#404040"/>
+    <text x="478" y="332">IL: Code Size, maxstack</text>
+    <path d="M420 382 H470" stroke="#404040"/>
+    <text x="478" y="386">Ghidra / x64dbg</text>
+  </g>
+</svg>

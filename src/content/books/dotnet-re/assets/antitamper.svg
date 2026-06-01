@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" font-family="'JetBrains Mono', monospace">
+  <rect width="880" height="360" rx="14" fill="#0d0d0d" stroke="#262626"/>
+  <text x="28" y="40" fill="#8a8a8a" font-size="13" letter-spacing="3">CONFUSEREX ANTI-TAMPER · RUNTIME DECRYPTION</text>
+
+  <!-- static view -->
+  <rect x="28" y="70" width="360" height="120" rx="10" fill="#121212" stroke="#e06c6c"/>
+  <text x="48" y="98" fill="#e06c6c" font-size="13">STATIC VIEW (disk)</text>
+  <text x="48" y="124" fill="#8a8a8a" font-size="12">method bodies encrypted →</text>
+  <text x="48" y="146" fill="#e5e5e5" font-size="13">Code Size: 0   maxstack: 0</text>
+  <text x="48" y="170" fill="#5a5a5a" font-size="12">decompiler shows empty { }</text>
+
+  <!-- runtime view -->
+  <rect x="492" y="70" width="360" height="120" rx="10" fill="#121212" stroke="#3fcf4e"/>
+  <text x="512" y="98" fill="#3fcf4e" font-size="13">RUNTIME VIEW (memory)</text>
+  <text x="512" y="124" fill="#8a8a8a" font-size="12">bodies decrypted &amp; patched →</text>
+  <text x="512" y="146" fill="#e5e5e5" font-size="13">real IL, readable C#</text>
+  <text x="512" y="170" fill="#5a5a5a" font-size="12">dump here, then de4dot</text>
+
+  <!-- arrow between -->
+  <path d="M388 130 H492" stroke="#e2c08d" stroke-width="2" fill="none" marker-end="url(#b)"/>
+  <text x="440" y="120" fill="#e2c08d" font-size="11" text-anchor="middle">.cctor</text>
+
+  <!-- decrypt flow -->
+  <text x="28" y="232" fill="#8a8a8a" font-size="12" letter-spacing="2">DECRYPT BOOTSTRAP</text>
+  <g font-size="12">
+    <rect x="28"  y="246" width="180" height="74" rx="8" fill="#121212" stroke="#56b6c2"/>
+    <text x="118" y="278" fill="#56b6c2" text-anchor="middle">&lt;Module&gt;.cctor</text>
+    <text x="118" y="298" fill="#5a5a5a" text-anchor="middle">runs at load</text>
+
+    <rect x="262" y="246" width="200" height="74" rx="8" fill="#121212" stroke="#e2c08d"/>
+    <text x="362" y="274" fill="#e2c08d" text-anchor="middle">decryptor(null, key)</text>
+    <text x="362" y="296" fill="#5a5a5a" text-anchor="middle">switch-flattened</text>
+
+    <rect x="516" y="246" width="200" height="74" rx="8" fill="#121212" stroke="#e06c6c"/>
+    <text x="616" y="274" fill="#e06c6c" text-anchor="middle">encrypted section</text>
+    <text x="616" y="296" fill="#5a5a5a" text-anchor="middle">entropy ~7.9</text>
+
+    <rect x="752" y="246" width="100" height="74" rx="8" fill="#121212" stroke="#3fcf4e"/>
+    <text x="802" y="282" fill="#3fcf4e" text-anchor="middle">JIT</text>
+  </g>
+  <g stroke="#404040" stroke-width="2" fill="none">
+    <path d="M208 283 H262" marker-end="url(#b)"/>
+    <path d="M462 283 H516" marker-end="url(#b)"/>
+    <path d="M716 283 H752" marker-end="url(#b)"/>
+  </g>
+
+  <defs>
+    <marker id="b" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0 0 L9 4.5 L0 9 z" fill="#404040"/>
+    </marker>
+  </defs>
+</svg>

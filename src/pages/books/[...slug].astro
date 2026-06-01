@@ -2,8 +2,9 @@
 import Link from '@/components/Link.astro'
 import PostLayout from '@/layouts/PostLayout.astro'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
 import { getAdjacentPosts, sortByDate } from '@/lib/collections'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
@@ -19,6 +20,13 @@ const posts = sortByDate(await getCollection('books'))
 const post = Astro.props
 const { prev, next } = getAdjacentPosts(posts, post.slug)
 const { Content, headings } = await post.render()
+
+const bookId = post.data.bookId
+const chapters = bookId
+  ? (await getCollection('chapters', (c) => c.data.book === bookId)).sort(
+      (a, b) => a.data.order - b.data.order,
+    )
+  : []
 ---
 
 <PostLayout
@@ -43,7 +51,7 @@ const { Content, headings } = await post.render()
       class="rounded-full"
     />
     <Link
-      href={`/authors/${post.data.author.name}`}
+      href={`/authors/${post.data.author.name.toLowerCase()}`}
       underline
       class="text-foreground"
     >
@@ -51,11 +59,34 @@ const { Content, headings } = await post.render()
     </Link>
   </div>
 
-  <div slot="actions" class="flex flex-row items-center justify-center gap-12">
-    <Button variant="secondary" size="sm">
-      <Icon name="lucide:download" class="mr-2 size-4 -translate-x-0.5" />
-      Download
-    </Button>
+  <div slot="actions" class="flex flex-row flex-wrap items-center justify-center gap-6 sm:gap-12">
+    {
+      chapters.length > 0 && (
+        <a
+          href={`/read/${bookId}/${chapters[0].data.order}`}
+          class={cn(buttonVariants({ variant: 'default', size: 'sm' }))}
+        >
+          <Icon name="lucide:book-open" class="mr-2 size-4 -translate-x-0.5" />
+          Читать
+        </a>
+      )
+    }
+    {
+      post.data.download ? (
+        <a
+          href={post.data.download}
+          download
+          class={cn(buttonVariants({ variant: 'secondary', size: 'sm' }))}
+        >
+          <Icon name="lucide:download" class="mr-2 size-4 -translate-x-0.5" />
+          Download
+        </a>
+      ) : (
+        <Badge variant="secondary" showHash={false} className="capitalize">
+          {post.data.status}
+        </Badge>
+      )
+    }
     <div class="flex flex-row items-center justify-center gap-3">
       <Badge variant="outline" showHash={false}>{post.data.lang}</Badge>
       <Separator orientation="vertical" className="h-4" />
@@ -64,4 +95,30 @@ const { Content, headings } = await post.render()
   </div>
 
   <Content />
+
+  {
+    chapters.length > 0 && (
+      <nav class="not-prose mt-10 rounded-xl border p-5">
+        <h2 class="mb-3 text-lg font-semibold">Оглавление</h2>
+        <ol class="flex flex-col divide-y divide-border">
+          {chapters.map((ch) => (
+            <li>
+              <a
+                href={`/read/${bookId}/${ch.data.order}`}
+                class="flex items-baseline gap-3 py-2.5 text-muted-foreground transition-colors hover:text-primary"
+              >
+                <span class="tabular-nums text-xs text-muted-foreground">
+                  {String(ch.data.order).padStart(2, '0')}
+                </span>
+                <span class="text-foreground">{ch.data.title}</span>
+                {ch.data.part && (
+                  <span class="ml-auto text-xs text-muted-foreground">{ch.data.part}</span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )
+  }
 </PostLayout>

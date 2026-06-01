@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" font-family="'JetBrains Mono', monospace">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <rect width="1200" height="630" fill="url(#g)"/>
+
+  <!-- orbit + moon -->
+  <g opacity="0.9">
+    <ellipse cx="930" cy="315" rx="210" ry="120" fill="none" stroke="#1f1f1f" stroke-width="2"/>
+    <ellipse cx="930" cy="315" rx="150" ry="220" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+    <circle cx="930" cy="315" r="78" fill="#111"/>
+    <path d="M930 237 a78 78 0 1 0 38 146 a62 62 0 1 1 -38 -146 z" fill="#e2c08d"/>
+    <circle cx="1080" cy="200" r="3" fill="#3fcf4e"/>
+    <circle cx="800" cy="430" r="3" fill="#56b6c2"/>
+    <circle cx="1010" cy="470" r="2.5" fill="#e2c08d"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="90" y="300" fill="#f5f5f5" font-size="150" font-weight="700" letter-spacing="2">Luna</text>
+  <text x="96" y="350" fill="#3fcf4e" font-size="24" letter-spacing="4">SELF-HOSTED SYSTEMS LANGUAGE</text>
+  <text x="96" y="386" fill="#8a8a8a" font-size="20">no GC · no VM · native ELF64 / PE64</text>
+
+  <!-- code hint -->
+  <g font-size="22">
+    <rect x="92" y="436" width="560" height="104" rx="10" fill="#0f0f0f" stroke="#262626"/>
+    <text x="116" y="476" fill="#5a5a5a">fn <tspan fill="#56b6c2">main</tspan>() -&gt; <tspan fill="#e2c08d">int</tspan></text>
+    <text x="140" y="508" fill="#3fcf4e">shine<tspan fill="#8a8a8a">(</tspan><tspan fill="#e2c08d">"Hello, Luna!"</tspan><tspan fill="#8a8a8a">)</tspan></text>
+  </g>
+
+  <defs>
+    <radialGradient id="g" cx="78%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#141414"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </radialGradient>
+  </defs>
+</svg>

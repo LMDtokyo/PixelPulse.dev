@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 470" font-family="'JetBrains Mono', monospace">
+  <rect width="820" height="470" rx="14" fill="#0d0d0d" stroke="#262626"/>
+  <text x="28" y="38" fill="#8a8a8a" font-size="13" letter-spacing="3">TIER ARCHITECTURE · модуль уровня N зависит только от ≤ N−1</text>
+
+  <!-- rows: top = high tier -->
+  <g font-size="13">
+    <!-- T8 -->
+    <rect x="40" y="56"  width="740" height="38" rx="7" fill="#121212" stroke="#e2c08d"/>
+    <text x="58" y="80" fill="#e2c08d">T8 · examples/</text>
+    <text x="762" y="80" fill="#8a8a8a" text-anchor="end" font-size="12">боты, серверы, демо</text>
+    <!-- T7 -->
+    <rect x="40" y="100" width="740" height="38" rx="7" fill="#121212" stroke="#e2c08d"/>
+    <text x="58" y="124" fill="#e2c08d">T7 · tools/</text>
+    <text x="762" y="124" fill="#8a8a8a" text-anchor="end" font-size="12">luna CLI · fmt · lsp · pkg</text>
+    <!-- T6 -->
+    <rect x="40" y="144" width="740" height="38" rx="7" fill="#121212" stroke="#e06c6c"/>
+    <text x="58" y="168" fill="#e06c6c">T6 · std/ext/</text>
+    <text x="762" y="168" fill="#8a8a8a" text-anchor="end" font-size="12">crypto · websocket · db · https (FFI declared)</text>
+    <!-- T5 -->
+    <rect x="40" y="188" width="740" height="38" rx="7" fill="#121212" stroke="#3fcf4e"/>
+    <text x="58" y="212" fill="#3fcf4e">T5 · std/net/</text>
+    <text x="762" y="212" fill="#8a8a8a" text-anchor="end" font-size="12">tcp · udp · http · router · thread · futex</text>
+    <!-- T4 -->
+    <rect x="40" y="232" width="740" height="38" rx="7" fill="#121212" stroke="#3fcf4e"/>
+    <text x="58" y="256" fill="#3fcf4e">T4 · std/std/</text>
+    <text x="762" y="256" fill="#8a8a8a" text-anchor="end" font-size="12">vec · map · json · time · cli · io</text>
+    <!-- T3 -->
+    <rect x="40" y="276" width="740" height="38" rx="7" fill="#121212" stroke="#56b6c2"/>
+    <text x="58" y="300" fill="#56b6c2">T3 · std/core/</text>
+    <text x="762" y="300" fill="#8a8a8a" text-anchor="end" font-size="12">mem · str · math · bits · io_raw · sys</text>
+    <!-- T2 -->
+    <rect x="40" y="320" width="740" height="38" rx="7" fill="#121212" stroke="#56b6c2"/>
+    <text x="58" y="344" fill="#56b6c2">T2 · std/runtime/</text>
+    <text x="762" y="344" fill="#8a8a8a" text-anchor="end" font-size="12">syscalls · atomics · raw memory (kernel ABI)</text>
+    <!-- T1 -->
+    <rect x="40" y="364" width="740" height="38" rx="7" fill="#121212" stroke="#404040"/>
+    <text x="58" y="388" fill="#cfcfcf">T1 · compiler/</text>
+    <text x="762" y="388" fill="#8a8a8a" text-anchor="end" font-size="12">сам компилятор Luna (self-hosted)</text>
+    <!-- T0 -->
+    <rect x="40" y="408" width="740" height="38" rx="7" fill="#121212" stroke="#404040"/>
+    <text x="58" y="432" fill="#8a8a8a">T0 · bootstrap/</text>
+    <text x="762" y="432" fill="#8a8a8a" text-anchor="end" font-size="12">одноразовый C99-bootstrap (libc only)</text>
+  </g>
+
+  <!-- dependency arrow -->
+  <path d="M22 70 V 432" stroke="#3a3a3a" stroke-width="2" fill="none" marker-end="url(#d)"/>
+  <defs>
+    <marker id="d" markerWidth="9" markerHeight="9" refX="4.5" refY="8" orient="auto">
+      <path d="M0 0 L9 0 L4.5 9 z" fill="#3a3a3a"/>
+    </marker>
+  </defs>
+</svg>

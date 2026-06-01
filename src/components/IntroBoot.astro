@@ -1,0 +1,293 @@
+---
+---
+
+<div
+  id="intro-boot"
+  class="fixed inset-0 z-[100] flex items-center justify-center bg-background font-mono"
+>
+  <canvas id="intro-canvas" class="absolute inset-0 opacity-40"></canvas>
+  <div class="relative z-10 w-full max-w-lg px-6">
+    <div id="intro-log" class="space-y-1 text-sm text-muted-foreground"></div>
+    <p class="mt-4 text-[10px] text-muted-foreground/40">click or press any key to skip</p>
+  </div>
+</div>
+
+<style>
+  #intro-log p {
+    white-space: pre-wrap;
+  }
+  #intro-boot .ok,
+  #intro-boot .caret {
+    color: hsl(var(--term-green));
+  }
+  #intro-boot .dim {
+    color: hsl(var(--muted-foreground) / 0.7);
+  }
+  #intro-boot .last {
+    color: hsl(var(--term-green));
+    font-weight: 700;
+    text-shadow: 0 0 12px hsl(var(--term-green) / 0.5);
+  }
+  /* creepy line: pale, cold glow, faint flicker */
+  #intro-boot .creep {
+    color: hsl(0 0% 80%);
+    text-shadow: 0 0 8px hsl(var(--term-green) / 0.18);
+    animation: creep-flicker 2.4s infinite steps(40);
+  }
+  @keyframes creep-flicker {
+    0%, 96%, 100% { opacity: 1; }
+    97% { opacity: 0.72; }
+    98% { opacity: 0.95; }
+    99% { opacity: 0.6; }
+  }
+  /* haunt: slow breathing darkness + drift */
+  #intro-boot.haunt::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 220px 90px hsl(0 0% 0% / 0.88);
+    animation: haunt-breathe 3.2s ease-in-out infinite;
+  }
+  #intro-boot.haunt #intro-log {
+    animation: haunt-drift 5s ease-in-out infinite;
+  }
+  @keyframes haunt-breathe {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  @keyframes haunt-drift {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(0.5px, -1px); filter: blur(0.3px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #intro-boot .creep { animation: none; }
+    #intro-boot.haunt::after { animation: none; opacity: 0.7; }
+    #intro-boot.haunt #intro-log { animation: none; }
+  }
+</style>
+
+<script>
+  type Step = {
+    t: string
+    ok?: boolean
+    dim?: boolean
+    last?: boolean
+    creep?: boolean
+    scramble?: boolean
+    haunt?: boolean
+    pause?: number
+  }
+
+  const sleep = (ms: number) => new Promise((r) => window.setTimeout(r, ms))
+
+  function uaShort(ua: string) {
+    const browser = /Edg\//.test(ua)
+      ? 'Edge'
+      : /OPR\//.test(ua)
+        ? 'Opera'
+        : /Firefox\//.test(ua)
+          ? 'Firefox'
+          : /Chrome\//.test(ua)
+            ? 'Chrome'
+            : /Safari\//.test(ua)
+              ? 'Safari'
+              : 'browser'
+    const os = /Windows/.test(ua)
+      ? 'Windows'
+      : /Mac OS X|Macintosh/.test(ua)
+        ? 'macOS'
+        : /Android/.test(ua)
+          ? 'Android'
+          : /iPhone|iPad|iOS/.test(ua)
+            ? 'iOS'
+            : /Linux/.test(ua)
+              ? 'Linux'
+              : 'unknown'
+    return `${browser} · ${os}`
+  }
+
+  function scrambleTo(el: HTMLElement, target: string, duration: number) {
+    const glyphs = '!<>-_\\/[]{}=+*^?#01ABCDEF$%@░▒▓'
+    const start = performance.now()
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / duration)
+      const reveal = Math.floor(p * target.length)
+      let s = target.slice(0, reveal)
+      for (let i = reveal; i < target.length; i++) {
+        s += target[i] === ' ' ? ' ' : glyphs[Math.floor(Math.random() * glyphs.length)]
+      }
+      el.textContent = s
+      if (p < 1) requestAnimationFrame(tick)
+      else el.textContent = target
+    }
+    requestAnimationFrame(tick)
+  }
+
+  async function getWho() {
+    try {
+      const ctrl = new AbortController()
+      const t = window.setTimeout(() => ctrl.abort(), 1500)
+      const res = await fetch('/api/whoami', { signal: ctrl.signal })
+      window.clearTimeout(t)
+      return await res.json()
+    } catch {
+      return null
+    }
+  }
+
+  async function initIntro() {
+    const overlay = document.getElementById('intro-boot')
+    if (!overlay) return
+    if (sessionStorage.getItem('pp_booted')) {
+      overlay.remove()
+      return
+    }
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const log = overlay.querySelector('#intro-log') as HTMLElement | null
+    const canvas = overlay.querySelector(
+      '#intro-canvas',
+    ) as HTMLCanvasElement | null
+
+    let stopMatrix = () => {}
+    if (!reduce && canvas) stopMatrix = startMatrix(canvas)
+
+    let done = false
+    let failsafe = 0
+    const finish = () => {
+      if (done) return
+      done = true
+      window.clearTimeout(failsafe)
+      sessionStorage.setItem('pp_booted', '1')
+      overlay.classList.remove('haunt')
+      window.setTimeout(
+        () => {
+          stopMatrix()
+          overlay.style.transition = 'opacity .6s'
+          overlay.style.opacity = '0'
+          window.setTimeout(() => overlay.remove(), 650)
+        },
+        reduce ? 60 : 380,
+      )
+    }
+    overlay.addEventListener('click', finish)
+    window.addEventListener('keydown', finish, { once: true })
+    failsafe = window.setTimeout(finish, 16000)
+
+    const render = (item: Step) => {
+      if (item.haunt && !reduce) overlay.classList.add('haunt')
+      const p = document.createElement('p')
+      if (item.last) p.className = 'last'
+      else if (item.creep) p.className = 'creep'
+      else if (item.dim) p.className = 'dim'
+
+      if (item.scramble && !reduce) {
+        p.textContent = ''
+        log?.appendChild(p)
+        scrambleTo(p, item.t, Math.min(900, Math.max(350, item.t.length * 32)))
+        return
+      }
+
+      if (item.last || item.creep || item.dim) {
+        p.textContent = item.t
+      } else if (item.ok) {
+        p.innerHTML = item.t.includes('[ OK ]')
+          ? item.t.replace('[ OK ]', '<span class="ok">[ OK ]</span>')
+          : `<span class="ok">${item.t}</span>`
+      } else {
+        p.innerHTML = `<span class="caret">&gt;</span> ${item.t}`
+      }
+      log?.appendChild(p)
+    }
+
+    const play = async (steps: Step[]) => {
+      for (const item of steps) {
+        if (done) return
+        render(item)
+        await sleep(reduce ? 25 : item.pause || 300)
+      }
+    }
+
+    const whoPromise = getWho()
+
+    await play([
+      { t: 'establishing secure uplink to pixelpulse.dev …' },
+      { t: 'handshake: x25519 / chacha20-poly1305 … [ OK ]', ok: true },
+      { t: 'tracing inbound connection …' },
+    ])
+
+    const who = await Promise.race([whoPromise, sleep(1600).then(() => null)])
+    if (who && !done) {
+      const loc = [who.city, who.region, who.country].filter(Boolean).join(', ')
+      const haunting: Step[] = [
+        { t: 'wait.', creep: true, pause: 900 },
+        { t: 'someone is already on this line.', creep: true, scramble: true, pause: 700 },
+        { t: 'i can see you.', creep: true, scramble: true, haunt: true, pause: 850 },
+        { t: `  ip        : ${who.ip}`, creep: true, scramble: true, pause: 320 },
+        { t: `  location  : ${loc}`, creep: true, scramble: true, pause: 320 },
+      ]
+      if (who.lat && who.lon)
+        haunting.push({ t: `  coords    : ${who.lat}, ${who.lon}`, creep: true, scramble: true, pause: 320 })
+      haunting.push(
+        { t: `  device    : ${uaShort(who.ua || navigator.userAgent)}`, creep: true, scramble: true, pause: 700 },
+        { t: 'you came a long way to find me.', creep: true, pause: 1100 },
+        { t: '…don’t look away.', creep: true, pause: 1300 },
+      )
+      await play(haunting)
+    }
+
+    overlay.classList.remove('haunt')
+    await play([
+      { t: '[✓] just kidding 😅', ok: true, pause: 600 },
+      {
+        t: 'relax — i only see what your browser tells every site. nothing stored. 🫡',
+        dim: true,
+      },
+      { t: 'access granted — welcome, operator.', last: true },
+    ])
+
+    finish()
+  }
+
+  function startMatrix(canvas: HTMLCanvasElement) {
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return () => {}
+    let width = (canvas.width = window.innerWidth)
+    let height = (canvas.height = window.innerHeight)
+    const glyphs = 'アイウエオカキクケコ0123456789ABCDEF#$%@'
+    const size = 16
+    let drops = new Array(Math.floor(width / size))
+      .fill(0)
+      .map(() => Math.random() * -50)
+
+    const onResize = () => {
+      width = canvas.width = window.innerWidth
+      height = canvas.height = window.innerHeight
+      drops = new Array(Math.floor(width / size))
+        .fill(0)
+        .map(() => Math.random() * -50)
+    }
+    window.addEventListener('resize', onResize)
+
+    const draw = () => {
+      ctx.fillStyle = 'rgba(0,0,0,0.08)'
+      ctx.fillRect(0, 0, width, height)
+      ctx.fillStyle = '#7fae5e'
+      ctx.font = `${size}px monospace`
+      for (let i = 0; i < drops.length; i++) {
+        const ch = glyphs[Math.floor(Math.random() * glyphs.length)]
+        ctx.fillText(ch, i * size, drops[i] * size)
+        if (drops[i] * size > height && Math.random() > 0.975) drops[i] = 0
+        drops[i] += 1
+      }
+    }
+    const id = window.setInterval(draw, 48)
+    return () => {
+      window.clearInterval(id)
+      window.removeEventListener('resize', onResize)
+    }
+  }
+
+  document.addEventListener('astro:page-load', initIntro)
+</script>

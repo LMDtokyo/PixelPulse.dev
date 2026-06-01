@@ -84,13 +84,14 @@ for (const section of TERM_SECTIONS) {
 
     {
       cover && (
-        <div class="col-span-full mx-auto w-full max-w-[1000px]">
+        <div class="col-start-2 mx-auto w-full max-w-[260px]">
           <Image
             src={cover}
             alt={title}
-            width={1200}
-            height={630}
-            class="rounded-xl border object-cover shadow-[0_0_60px_-20px_hsl(var(--term-green)/0.35)]"
+            width={480}
+            height={720}
+            loading="eager"
+            class="mx-auto w-full rounded-xl border object-cover shadow-[0_0_50px_-18px_hsl(var(--term-green)/0.35)]"
           />
         </div>
       )
@@ -118,7 +119,7 @@ for (const section of TERM_SECTIONS) {
                   class="rounded-full"
                 />
                 <Link
-                  href={`/authors/${owner.name}`}
+                  href={`/authors/${owner.name.toLowerCase()}`}
                   underline
                   class="text-foreground"
                 >

@@ -1,7 +1,7 @@
 ---
 title: "Hacker's Portfolio"
 description: "Backend Engineer и Security Researcher, 4 курс. Java 21 / Spring Boot 3, Next.js 15 / React 19, PostgreSQL / Redis, WebSocket, Docker. Строю LunaMarket — игровую платформу. Кибербезопасность, CTF, реверс-инжиниринг."
-date: "2024-12-16"
+date: "2026-06-01"
 owner: { avatar: "https://github.com/LMDtokyo.png", name: "LMDtokyo" }
 image: "assets/hacker-lab.webp"
 tags: ["backend", "security", "Java", "Spring Boot", "Next.js", "Python", "CTF"]
@@ -11,160 +11,363 @@ draft: false
 
 ## Приветствую!
 
-Меня зовут **LMDtokyo** — я хакер, пентестер и full-stack разработчик. Моя специализация включает кибербезопасность, системное программирование (C++, Rust), высокоуровневую разработку (C#, Python) и современные веб-технологии (TSX, React, Astro). Я учусь на втором курсе и стремлюсь к глубокому пониманию DevSecOps, OSINT, реверс-инжиниринга и передовых методик анализа трафика.
+Меня зовут **Lizi** (LMDtokyo) — **backend-инженер** и **security researcher**, 4 курс. Специализация: серверная разработка на **Java 21 / Spring Boot 3** и **Fastify**, фронтенд на **Next.js 15 / React 19**, данные в **PostgreSQL / Redis**, real-time через **WebSocket/STOMP**, деплой в **Docker**. Параллельно — кибербезопасность: CTF, реверс-инжиниринг, анализ трафика.
 
-Мой подход — **полный цикл разработки**: от низкоуровневых компонентов и сетевых протоколов до фронтенд-интерфейсов и инфраструктуры, с акцентом на безопасность на каждом этапе.
+Мой подход — **полный цикл**: от проектирования API, аутентификации (JWT / Spring Security) и наблюдаемости (Prometheus) до фронтенд-интерфейсов и инфраструктуры, с акцентом на безопасность на каждом этапе.
 
-<div class="my-8 flex flex-col items-center">
-  <img src="assets/0bca2bdcb66a1558ed60b21fc3d2d898.jpg" alt="Hacker Illustration" class="w-full max-w-md rounded-lg border border-gray-700 shadow-lg" />
-</div>
+![Hacker Illustration](assets/0bca2bdcb66a1558ed60b21fc3d2d898.jpg)
 
 
 ## Мои навыки
 
 ### Языки и технологии
-- **C++ & Rust:** Системное программирование, высокопроизводительные утилиты, оптимизация под многопоточность.
-- **C# & .NET:** Создание серверных приложений, CLI-инструментов и микросервисов.
-- **Python:** Автоматизация, парсинг данных, OSINT-скрипты, быстрая прототипизация.
-- **TypeScript (TSX) & React/Astro:** Интерактивные SPA/SSR-приложения, гибридный рендеринг для оптимальной производительности.
-- **Linux (Kali):** Пентестинг, реверс-инжиниринг, анализ сетей, эксплуатация уязвимостей.
+- **Java 21 & Spring Boot 3:** Основной бэкенд — REST API, Spring Security, Spring Data JPA, WebSocket/STOMP, Flyway-миграции.
+- **TypeScript & Next.js 15 / React 19:** Фронтенд и BFF-прокси (Fastify), SSR и TanStack Query.
+- **Python:** Async-боты (Discord.py, Steam API), автоматизация, OSINT-скрипты.
+- **C / C++:** Системное программирование, реверс-инжиниринг, низкоуровневые утилиты.
+- **PostgreSQL · Redis · Docker:** Хранилище, кэш, контейнеризация и Docker Compose-деплой.
+- **Linux (Kali):** Пентестинг, анализ сетей, исследование уязвимостей.
 
 ### Инструменты
-- **Kali Linux, Wireshark, Nmap, Burp Suite:** Фундамент для анализа трафика, поиска уязвимостей, тестирования безопасности.
-- **Git, Docker, CI/CD:** Стабильный, повторяемый деплой, интеграция с конвейером разработки.
-- **VSCode, JetBrains IDE, Neovim:** Эффективная среда для написания кода и рефакторинга.
-- **DevOps/DevSecOps:** Автоматизированные проверки, статический анализ кода, внедрение безопасных практик на уровне CI/CD.
+- **IntelliJ IDEA, VSCode, Neovim:** Основная среда разработки и рефакторинга.
+- **Docker, Docker Compose, Nginx, Gradle:** Контейнеризация, обратный прокси, сборка.
+- **Prometheus, Micrometer, Grafana:** Метрики и наблюдаемость сервисов.
+- **Ghidra, IDA Pro, dnSpyEx, x64dbg, Wireshark, Burp Suite:** Реверс-инжиниринг и анализ безопасности.
 
-### Навыки в формате "badge"
+### Технологический стек
 <div class="flex flex-wrap gap-2 mt-4">
-  <span class="inline-block bg-gray-800 text-green-400 text-xs px-2 py-1 rounded">C++</span>
-  <span class="inline-block bg-gray-800 text-cyan-400 text-xs px-2 py-1 rounded">Rust</span>
-  <span class="inline-block bg-gray-800 text-purple-400 text-xs px-2 py-1 rounded">C#</span>
-  <span class="inline-block bg-gray-800 text-yellow-400 text-xs px-2 py-1 rounded">Python</span>
-  <span class="inline-block bg-gray-800 text-blue-400 text-xs px-2 py-1 rounded">TSX/React</span>
-  <span class="inline-block bg-gray-800 text-pink-400 text-xs px-2 py-1 rounded">Linux/Kali</span>
+  <span class="inline-block bg-secondary text-additive text-xs px-2 py-1 rounded font-mono">Java 21</span>
+  <span class="inline-block bg-secondary text-additive text-xs px-2 py-1 rounded font-mono">Spring Boot 3</span>
+  <span class="inline-block bg-secondary text-primary text-xs px-2 py-1 rounded font-mono">Next.js 15</span>
+  <span class="inline-block bg-secondary text-cyan-400 text-xs px-2 py-1 rounded font-mono">React 19</span>
+  <span class="inline-block bg-secondary text-blue-400 text-xs px-2 py-1 rounded font-mono">TypeScript</span>
+  <span class="inline-block bg-secondary text-yellow-400 text-xs px-2 py-1 rounded font-mono">Python</span>
+  <span class="inline-block bg-secondary text-blue-300 text-xs px-2 py-1 rounded font-mono">PostgreSQL</span>
+  <span class="inline-block bg-secondary text-red-400 text-xs px-2 py-1 rounded font-mono">Redis</span>
+  <span class="inline-block bg-secondary text-cyan-300 text-xs px-2 py-1 rounded font-mono">Docker</span>
 </div>
 
 ---
 
-## Примеры работ и методик
+## Примеры из реальных проектов
 
-### Сетевой сканер на C++/Rust
+Ниже — реальные паттерны из моего бэкенда (платформа **LunaMarket**), а не учебные заготовки.
 
-**Задача:** Создать утилиту для анализа сетевого трафика, обнаружения открытых портов и сервисов.
-**Инструменты:** `libpcap` для C++, `tokio` для Rust.
+### Backend: REST API на Spring Boot 3
 
-#### Пример на C++:
-```cpp
-#include <iostream>
-#include <pcap.h>
+Тонкий контроллер, бизнес-логика в сервисе, авторизация по ролям через `@PreAuthorize`:
 
-int main() {
-    char errbuf[PCAP_ERRBUF_SIZE];
-    pcap_if_t *alldevs;
-    if (pcap_findalldevs(&alldevs, errbuf) == -1) {
-        std::cerr << "Error finding devices: " << errbuf << std::endl;
-        return 1;
+```java
+@RestController
+@RequestMapping("/api/v1/listings")
+@RequiredArgsConstructor
+public class ListingController {
+
+    private final ListingService service;
+
+    @GetMapping
+    public Page<ListingDto> active(@PageableDefault(size = 20) Pageable page) {
+        return service.findActive(page);
     }
 
-    // Выбор интерфейса, установка фильтра (например, "tcp port 80"), захват пакетов
-    // Анализ трафика для определения открытых портов и сервисов
-
-    pcap_freealldevs(alldevs);
-    return 0;
-}
-```
-Пример на Rust (с использованием async-экосистемы):
-```cpp
-use tokio::net::TcpStream;
-
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "192.168.1.10:80";
-    match TcpStream::connect(addr).await {
-        Ok(_) => println!("Port 80 is open on {}", addr),
-        Err(e) => println!("Port 80 closed or filtered on {}: {}", addr, e),
+    @PostMapping
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<ListingDto> create(@Valid @RequestBody CreateListing req,
+                                             @AuthenticationPrincipal AppUser user) {
+        ListingDto created = service.create(req, user.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
-    Ok(())
-}
-
-```
-Консольный вывод (пример):
-```cpp
-$ ./scanner --host 192.168.1.10 --ports 1-1000
-[INFO] Scanning host 192.168.1.10...
-[OPEN] Port 80: HTTP Service
-[CLOSED] Port 443: No Response
-[INFO] Scan complete.
-
-```
-Веб-приложение на TSX/React/Astro
-Задача: Создать высокопроизводительное веб-приложение с гибридным рендерингом: часть контента генерируется на сервере (Astro), часть интерактивных компонентов — на клиенте (React).
-
-```cpp
-// components/Greeting.tsx
-import React from 'react';
-
-export default function Greeting({ user }: { user: string }) {
-  return <h1 className="text-green-300">Привет, {user}! Добро пожаловать в моё приложение.</h1>;
 }
 ```
-Astro страница:
-```cpp
+
+### Аутентификация: JWT + Spring Security
+
+Stateless-сессии, фильтр валидации JWT перед стандартным фильтром аутентификации:
+
+```java
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+    private final JwtAuthFilter jwtFilter;
+
+    @Bean
+    SecurityFilterChain chain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(reg -> reg
+                .requestMatchers("/api/auth/**", "/actuator/health").permitAll()
+                .anyRequest().authenticated())
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+    }
+}
+```
+
+### Real-time: WebSocket / STOMP
+
+Брокер для пуша обновлений рынка и чата в реальном времени:
+
+```java
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/topic", "/queue");
+        registry.setApplicationDestinationPrefixes("/app");
+    }
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+    }
+}
+```
+
+Клиент на TypeScript подписывается на топик:
+
+```typescript
+import { Client } from '@stomp/stompjs'
+
+const client = new Client({
+  brokerURL: 'wss://api.lunamarket.dev/ws',
+  connectHeaders: { Authorization: `Bearer ${token}` },
+  onConnect: () => {
+    client.subscribe('/topic/listings', (msg) => {
+      const listing = JSON.parse(msg.body)
+      store.upsertListing(listing)
+    })
+  },
+})
+client.activate()
+```
+
+### Данные: PostgreSQL + JPA + Flyway
+
+Сущность и версионированная миграция (схема в Git, не «руками в проде»):
+
+```java
+@Entity
+@Table(name = "market_listing")
+public class MarketListing {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AppUser seller;
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private BigDecimal price;
+
+    @Enumerated(EnumType.STRING)
+    private ListingStatus status = ListingStatus.ACTIVE;
+
+    @CreationTimestamp
+    private Instant createdAt;
+}
+```
+
+```sql
+-- V12__market_listing.sql
+create table market_listing (
+    id         uuid primary key default gen_random_uuid(),
+    seller_id  uuid not null references app_user (id),
+    title      text not null,
+    price      numeric(12, 2) not null check (price >= 0),
+    status     text not null default 'ACTIVE',
+    created_at timestamptz not null default now()
+);
+
+create index idx_listing_status on market_listing (status);
+```
+
+### Кэш: Redis
+
+Горячие выборки кэшируются, инвалидация — при записи:
+
+```java
+@Service
+@RequiredArgsConstructor
+public class ListingService {
+
+    private final ListingRepository repository;
+
+    @Cacheable(value = "listings:active", key = "#page.pageNumber")
+    public Page<ListingDto> findActive(Pageable page) {
+        return repository.findByStatus(ListingStatus.ACTIVE, page).map(ListingDto::from);
+    }
+
+    @CacheEvict(value = "listings:active", allEntries = true)
+    public ListingDto create(CreateListing req, UUID sellerId) {
+        var saved = repository.save(MarketListing.from(req, sellerId));
+        return ListingDto.from(saved);
+    }
+}
+```
+
+### Frontend: Next.js 15 + React 19
+
+Серверный компонент тянет данные на сервере, клиентский остров держит интерактив:
+
+```tsx
+// app/market/page.tsx — React 19 Server Component
+import { getListings } from '@/lib/api'
+import { ListingGrid } from './listing-grid'
+
+export default async function MarketPage() {
+  const listings = await getListings({ status: 'ACTIVE' })
+
+  return (
+    <main className="container py-8">
+      <h1 className="text-2xl font-bold">Marketplace</h1>
+      <ListingGrid initial={listings} />
+    </main>
+  )
+}
+```
+
+```tsx
+// listing-grid.tsx — клиент: TanStack Query + live-обновления через STOMP
+'use client'
+import { useQuery } from '@tanstack/react-query'
+
+export function ListingGrid({ initial }: { initial: Listing[] }) {
+  const { data } = useQuery({
+    queryKey: ['listings', 'active'],
+    queryFn: () => fetch('/bff/listings').then((r) => r.json()),
+    initialData: initial,
+  })
+
+  return (
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+      {data.map((l) => (
+        <ListingCard key={l.id} listing={l} />
+      ))}
+    </div>
+  )
+}
+```
+
+### BFF-прокси на Fastify
+
+Тонкий слой между фронтом и Java-бэкендом: проксирует токен, скрывает внутренние эндпоинты:
+
+```typescript
+import Fastify from 'fastify'
+
+const app = Fastify({ logger: true })
+
+app.get('/bff/listings', async (req, reply) => {
+  const upstream = await fetch(`${process.env.API_URL}/api/v1/listings?status=ACTIVE`, {
+    headers: { authorization: req.headers.authorization ?? '' },
+  })
+  reply.code(upstream.status).send(await upstream.json())
+})
+
+await app.listen({ port: 8080, host: '0.0.0.0' })
+```
+
+### Боты: Discord.py + Steam API
+
+Async-бот LunaMarket: отдаёт цены и статус предметов прямо в Discord:
+
+```python
+import aiohttp
+import discord
+from discord.ext import commands
+
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+
+@bot.command(name="price")
+async def price(ctx: commands.Context, appid: int):
+    url = f"https://store.steampowered.com/api/appdetails?appids={appid}&cc=us"
+    async with aiohttp.ClientSession() as session, session.get(url) as resp:
+        payload = await resp.json()
+
+    data = payload[str(appid)]["data"]
+    price = data.get("price_overview", {}).get("final_formatted", "free")
+    await ctx.send(f"**{data['name']}** — {price}")
+
+bot.run(TOKEN)
+```
+
+### Security: реверс-инжиниринг и анализ
+
+Защитный RE — разбираю образцы (малварь, читы), чтобы вытащить IOC и построить детект, не запуская их:
+
+```bash
+diec sample.exe                              # идентификация упаковщика/протектора
+dnspy.console.exe -o out/ sample.exe         # декомпиляция .NET-сборки
+rabin2 -zz sample.bin | rg 'https?://|\.dll' # строки → C2-домены, импорты
+# далее — Ghidra/IDA для нативного кода, x64dbg для рантайм-дампа
+```
+
 ---
-import Greeting from '../components/Greeting.tsx';
-const user = 'LMDtokyo';
+
+## Текущий проект: LunaMarket
+
+Игровая платформа: форум, торговая площадка и система достижений.
+
+- **Backend:** Spring Boot 3 + Java 21, Spring Security (JWT), Spring Data JPA.
+- **Frontend:** Next.js 15 + React 19 + TailwindCSS, BFF-прокси на Fastify.
+- **Данные:** PostgreSQL 15, Redis 7, миграции Flyway.
+- **Real-time:** WebSocket/STOMP — обновления рынка и чат.
+- **Интеграции:** Discord- и Steam-боты (async Python).
+- **Инфраструктура:** Docker Compose, Nginx, метрики через Prometheus + Micrometer.
+
+```yaml
+# docker-compose.yml (фрагмент)
+services:
+  api:
+    build: ./backend
+    depends_on: [postgres, redis]
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+  web:
+    build: ./frontend
+    depends_on: [api]
+  postgres:
+    image: postgres:15
+  redis:
+    image: redis:7
+```
+
 ---
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Безопасное веб-приложение</title>
-  </head>
-  <body class="bg-black text-gray-200">
-    <Greeting user={user} client:load />
-    <!-- Контент Astro отрендерен на сервере, компонент Greeting отрендерен на клиенте -->
-  </body>
-</html>
 
-```
-Автоматизация и OSINT на Python
-Задача: Быстро собрать данные о целевых хостах или публичных профилях для OSINT.
-Инструменты: requests, BeautifulSoup для парсинга.
-```cpp
-import requests
-from bs4 import BeautifulSoup
+## Достижения
 
-url = "https://example.com/users"
-r = requests.get(url)
-soup = BeautifulSoup(r.text, 'html.parser')
-profiles = soup.find_all("div", class_="user-card")
+### CTF и пентестинг
+- **CTF:** задачи по стеганографии, криптоанализу, реверс-инжинирингу и веб-уязвимостям.
+- **Reverse engineering:** анализ бинарей в Ghidra и IDA Pro — восстановление логики без исходников.
+- **Defensive RE:** разбор образцов малвари/читов, извлечение IOC (C2, пути, персистентность) для детекта.
+- **Инструментарий:** Nmap, Burp Suite, Wireshark — анализ трафика, поиск и проверка уязвимостей.
 
-for p in profiles:
-    name = p.find("h2").text.strip()
-    email = p.find("a", class_="email").text.strip()
-    print(f"[INFO] Found user: {name}, email: {email}")
-```
-Вывод:
-```cpp
-[INFO] Found user: Alice Johnson, email: alice@example.com
-[INFO] Found user: Bob Smith, email: bob@example.org
+---
 
-```
-Достижения в CTF и пентестинге
-Участие в CTF-соревнованиях: Решение задач по стеганографии, криптоанализу, реверс-инжинирингу, веб-уязвимостям.
-Использование Nmap, sqlmap, Metasploit: автоматизированные сканирования, поиск и эксплуатация уязвимостей.
-Реверс-инжиниринг бинарей с помощью Ghidra и IDA Pro: анализ машинного кода, понимание логики без исходников.
-Пример запуска Nmap для обнаружения уязвимостей:
-```cpp
-nmap -sV --script=vuln target.com
+## Roadmap
 
-```
-Roadmap развития
-** Углубление в Rust: Разработка безопасных и устойчивых к ошибкам системных сервисов.
-** Оптимизация фронтенда: Использование Astro + React SSR для уменьшения времени до интерактивности.
-** Расширение DevSecOps: Автоматический SAST, DAST, интеграция SCA для отслеживания уязвимостей зависимостей.
-** Криптография и защита данных: Изучение TLS, внедрение безопасных схем аутентификации, правильное хранение ключей.
+- [x] Spring Boot 3 / Java 21 — сервисы LunaMarket с real-time и кэшем
+- [x] Next.js 15 / React 19 — SSR-фронтенд + BFF-прокси на Fastify
+- [ ] **Observability** — Prometheus + Grafana, distributed tracing (OpenTelemetry)
+- [ ] **Security hardening** — threat modeling, rate limiting, управление секретами
+- [ ] **Kubernetes** — переезд с Docker Compose, helm-чарты
 
-Философия и миссия
-<div class="my-6 p-4 border border-gray-700 rounded-lg bg-black/50 text-gray-200 text-sm leading-relaxed"> <strong>Мой девиз:</strong> "Безопасность — это не продукт, а непрерывный процесс познания. Я стремлюсь не просто обнаружить уязвимость, но и понять её природу, устранить причину и поделиться знаниями." </div>
-Хакер для меня — это исследователь, инженер и новатор, создающий более надёжный, защищённый и справедливый цифровой мир.
+---
+
+## Философия
+
+> Мы чиним чужие сервисы патчами, но самые сложные 0-day — внутри себя.
+>
+> — Lizi
+
+Безопасность — это не продукт, а непрерывный процесс познания. Цель — не просто найти уязвимость, но понять её природу, устранить причину и поделиться знанием.

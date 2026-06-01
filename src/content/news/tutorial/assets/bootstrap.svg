@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 280" font-family="'JetBrains Mono', monospace">
+  <rect width="940" height="280" rx="14" fill="#0d0d0d" stroke="#262626"/>
+  <text x="28" y="40" fill="#8a8a8a" font-size="13" letter-spacing="3">SELF-HOSTING BOOTSTRAP</text>
+
+  <!-- stage 1 -->
+  <rect x="28" y="80" width="240" height="110" rx="10" fill="#121212" stroke="#56b6c2"/>
+  <text x="148" y="116" fill="#56b6c2" font-size="14" text-anchor="middle">① C99 bootstrap</text>
+  <text x="148" y="142" fill="#8a8a8a" font-size="12" text-anchor="middle">luna_bootstrap.c</text>
+  <text x="148" y="162" fill="#5a5a5a" font-size="12" text-anchor="middle">5.9 KLOC → ELF64 / PE64</text>
+
+  <!-- stage 2 -->
+  <rect x="350" y="80" width="240" height="110" rx="10" fill="#121212" stroke="#3fcf4e"/>
+  <text x="470" y="116" fill="#3fcf4e" font-size="14" text-anchor="middle">② self-hosted</text>
+  <text x="470" y="142" fill="#8a8a8a" font-size="12" text-anchor="middle">luna-mini.elf · 233 KB</text>
+  <text x="470" y="162" fill="#5a5a5a" font-size="12" text-anchor="middle">recompiles itself &lt; 1s</text>
+
+  <!-- stage 3 -->
+  <rect x="672" y="80" width="240" height="110" rx="10" fill="#121212" stroke="#e2c08d"/>
+  <text x="792" y="116" fill="#e2c08d" font-size="14" text-anchor="middle">③ fixed point</text>
+  <text x="792" y="142" fill="#8a8a8a" font-size="12" text-anchor="middle">byte-identical output</text>
+  <text x="792" y="162" fill="#5a5a5a" font-size="12" text-anchor="middle">compiler is stable</text>
+
+  <g stroke="#404040" stroke-width="2" fill="none">
+    <path d="M268 135 H350" marker-end="url(#c)"/>
+    <path d="M590 135 H672" marker-end="url(#c)"/>
+  </g>
+
+  <!-- loop arrow stage2 -> itself -->
+  <path d="M470 80 C 470 40, 700 40, 700 80" stroke="#3fcf4e" stroke-width="1.5" fill="none" marker-end="url(#c)" opacity="0.7"/>
+  <text x="585" y="48" fill="#3fcf4e" font-size="11" text-anchor="middle" opacity="0.8">compiles its own source</text>
+
+  <text x="470" y="240" fill="#5a5a5a" font-size="12" text-anchor="middle">no runtime · no garbage collector · output runs standalone</text>
+
+  <defs>
+    <marker id="c" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0 0 L9 4.5 L0 9 z" fill="#404040"/>
+    </marker>
+  </defs>
+</svg>

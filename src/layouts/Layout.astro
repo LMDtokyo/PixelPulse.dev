@@ -3,6 +3,10 @@ import EasterEggs from '@/components/EasterEggs.astro'
 import Footer from '@/components/Footer.astro'
 import Head from '@/components/Head.astro'
 import Header from '@/components/Header.astro'
+import HudStats from '@/components/HudStats.tsx'
+import IntroBoot from '@/components/IntroBoot.astro'
+import MusicPlayer from '@/components/MusicPlayer.astro'
+import ScrollHud from '@/components/ScrollHud.astro'
 import { SITE } from '@/consts'
 import Analytics from '@vercel/analytics/astro'
 
@@ -22,11 +26,15 @@ const { title, description, image } = Astro.props
   class="terminal-root box-border flex h-fit min-h-screen flex-col gap-y-6 font-sans antialiased"
 >
 <div class="site-crt" aria-hidden="true"></div>
+<IntroBoot />
 <Header />
+<ScrollHud />
 <main class="flex-grow">
   <slot />
 </main>
 <Footer />
+<HudStats client:idle />
+<MusicPlayer />
 <EasterEggs />
 <Analytics />
 </body>

@@ -1,0 +1,437 @@
+---
+import '@/styles/global.css'
+import { getCollection } from 'astro:content'
+
+export async function getStaticPaths() {
+  const all = await getCollection('chapters')
+  const books = await getCollection('books')
+
+  const byBook = new Map<string, typeof all>()
+  for (const ch of all) {
+    const list = byBook.get(ch.data.book) ?? []
+    list.push(ch)
+    byBook.set(ch.data.book, list)
+  }
+
+  const paths = []
+  for (const [book, list] of byBook) {
+    list.sort((a, b) => a.data.order - b.data.order)
+    const meta = books.find((b) => b.data.bookId === book)
+    list.forEach((ch, idx) => {
+      paths.push({
+        params: { book, chapter: String(ch.data.order) },
+        props: { ch, list, idx, meta },
+      })
+    })
+  }
+  return paths
+}
+
+const { ch, list, idx, meta } = Astro.props
+const { Content } = await ch.render()
+
+const book = ch.data.book
+const prevCh = idx > 0 ? list[idx - 1] : null
+const nextCh = idx < list.length - 1 ? list[idx + 1] : null
+const prevUrl = prevCh ? `/read/${book}/${prevCh.data.order}` : ''
+const nextUrl = nextCh ? `/read/${book}/${nextCh.data.order}` : ''
+const bookUrl = meta ? `/books/${meta.slug}` : '/books'
+const bookTitle = meta?.data.title ?? book
+---
+
+<!doctype html>
+<html lang={meta?.data.lang ?? 'ru'} class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{bookTitle} — {ch.data.title}</title>
+  </head>
+  <body class="bg-background text-foreground antialiased">
+    <div
+      class="reader"
+      data-key={`read:${book}:${ch.data.order}`}
+      data-chapter-key={`read:${book}`}
+      data-order={ch.data.order}
+      data-prev={prevUrl}
+      data-next={nextUrl}
+    >
+      <header class="bar">
+        <a href={bookUrl} class="exit" aria-label="Закрыть книгу">✕</a>
+        <span class="bar-title">
+          <b>{bookTitle}</b>
+          <span class="ch">· гл. {ch.data.order}. {ch.data.title}</span>
+        </span>
+        <span class="counter" aria-live="polite">1 / 1</span>
+        <div class="progress" aria-hidden="true"><div class="bar-fill"></div></div>
+      </header>
+
+      <main class="stage">
+        <button class="arrow arrow-prev" data-dir="-1" aria-label="Предыдущая страница">‹</button>
+
+        <div class="viewport">
+          <article class="pages prose prose-neutral dark:prose-invert">
+            <p class="chap-head">
+              Глава {ch.data.order}{ch.data.part ? ` · ${ch.data.part}` : ''}
+            </p>
+            <h1 class="chap-title">{ch.data.title}</h1>
+            <Content />
+            <p class="chap-end">
+              {nextCh ? '— конец главы —' : '— конец —'}
+            </p>
+          </article>
+        </div>
+
+        <button class="arrow arrow-next" data-dir="1" aria-label="Следующая страница">›</button>
+      </main>
+
+      <footer class="nav">
+        <a class="navbtn chbtn" href={prevUrl || bookUrl}>
+          {prevCh ? `‹ гл. ${prevCh.data.order}` : '‹ к книге'}
+        </a>
+        <span class="hint">стрелки ← → · свайп · кнопки по бокам · {idx + 1}/{list.length} глав</span>
+        <a class="navbtn chbtn" class:list={[{ disabled: !nextCh }]} href={nextUrl || '#'}>
+          {nextCh ? `гл. ${nextCh.data.order} ›` : 'последняя'}
+        </a>
+      </footer>
+    </div>
+
+    <style>
+      :root {
+        --page-w: min(94vw, 720px);
+        --page-h: min(82dvh, 860px);
+        --pad: clamp(1.25rem, 3.5vw, 2.75rem);
+        --gap: 80px;
+      }
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      .reader {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        background:
+          radial-gradient(130% 90% at 50% -10%, hsl(0 0% 9%), transparent 60%),
+          hsl(var(--background));
+      }
+
+      .bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid hsl(var(--border));
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        color: hsl(var(--muted-foreground));
+      }
+      .exit:hover {
+        color: hsl(var(--primary));
+      }
+      .bar-title {
+        flex: 1;
+        text-align: center;
+        color: hsl(var(--foreground));
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .bar-title .ch {
+        color: hsl(var(--muted-foreground));
+        font-weight: 400;
+      }
+      .counter {
+        font-variant-numeric: tabular-nums;
+        flex-shrink: 0;
+      }
+      .progress {
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        height: 2px;
+        width: 100%;
+        background: hsl(var(--border));
+      }
+      .bar-fill {
+        height: 100%;
+        width: 0;
+        background: hsl(var(--primary));
+        transition: width 0.4s ease;
+      }
+
+      .stage {
+        position: relative;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(0.5rem, 3vw, 2.5rem);
+        min-height: 0;
+        padding: clamp(0.75rem, 3vh, 2rem) 0;
+      }
+      .viewport {
+        width: var(--page-w);
+        height: var(--page-h);
+        overflow: hidden;
+        border: 1px solid hsl(var(--border));
+        border-radius: 14px;
+        background: hsl(0 0% 7%);
+        box-shadow:
+          0 1px 0 hsl(0 0% 100% / 0.03) inset,
+          0 30px 70px -34px hsl(0 0% 0% / 0.85);
+        padding: var(--pad);
+      }
+      .pages {
+        height: 100%;
+        max-width: none;
+        column-gap: var(--gap);
+        column-fill: auto;
+        transform: translateX(0);
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: clamp(1rem, 1.35vw, 1.12rem);
+        line-height: 1.75;
+        text-align: justify;
+        hyphens: auto;
+        color: hsl(0 0% 86%);
+      }
+      .chap-head {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: hsl(var(--muted-foreground));
+        text-indent: 0 !important;
+        text-align: left;
+      }
+      .chap-title {
+        font-family: Georgia, serif;
+        color: hsl(var(--primary)) !important;
+        margin-top: 0.2rem;
+      }
+      .chap-end {
+        margin-top: 1.5rem;
+        text-align: center !important;
+        text-indent: 0 !important;
+        color: hsl(var(--muted-foreground));
+        font-style: italic;
+      }
+      .pages :global(h2),
+      .pages :global(h3) {
+        font-family: Georgia, serif;
+        color: hsl(var(--primary));
+        text-align: left;
+        break-after: avoid;
+      }
+      .pages :global(p) {
+        margin: 0 0 1rem;
+        text-indent: 1.4em;
+      }
+      .pages :global(h2) + :global(p),
+      .pages :global(h3) + :global(p) {
+        text-indent: 0;
+      }
+      .pages :global(pre),
+      .pages :global(figure),
+      .pages :global(img),
+      .pages :global(blockquote) {
+        break-inside: avoid;
+        max-width: 100%;
+      }
+
+      .arrow {
+        flex-shrink: 0;
+        width: clamp(40px, 6vw, 56px);
+        height: clamp(40px, 6vw, 56px);
+        display: grid;
+        place-items: center;
+        border: 1px solid hsl(var(--border));
+        border-radius: 9999px;
+        background: hsl(0 0% 9% / 0.8);
+        color: hsl(var(--muted-foreground));
+        font-size: 1.6rem;
+        line-height: 1;
+        cursor: pointer;
+        transition:
+          color 0.2s,
+          border-color 0.2s,
+          transform 0.2s;
+      }
+      .arrow:hover:not(:disabled) {
+        color: hsl(var(--primary));
+        border-color: hsl(var(--primary));
+        transform: scale(1.08);
+      }
+      .arrow:disabled {
+        opacity: 0.25;
+        cursor: default;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.85rem 1.4rem;
+        border-top: 1px solid hsl(var(--border));
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+      }
+      .navbtn {
+        color: hsl(var(--muted-foreground));
+        transition: color 0.2s;
+      }
+      .navbtn:hover {
+        color: hsl(var(--primary));
+      }
+      .navbtn.disabled {
+        opacity: 0.3;
+        pointer-events: none;
+      }
+      .hint {
+        color: hsl(var(--muted-foreground) / 0.6);
+        text-align: center;
+      }
+
+      @media (max-width: 640px) {
+        .arrow {
+          position: absolute;
+          bottom: 0;
+          z-index: 2;
+        }
+        .arrow-prev {
+          left: 1rem;
+        }
+        .arrow-next {
+          right: 1rem;
+        }
+        .hint {
+          display: none;
+        }
+        .bar-title .ch {
+          display: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .pages,
+        .bar-fill,
+        .arrow {
+          transition: none;
+        }
+      }
+    </style>
+
+    <script>
+      function initReader() {
+        const reader = document.querySelector<HTMLElement>('.reader')
+        if (!reader) return
+        const viewport = reader.querySelector<HTMLElement>('.viewport')!
+        const pages = reader.querySelector<HTMLElement>('.pages')!
+        const counter = reader.querySelector<HTMLElement>('.counter')!
+        const fill = reader.querySelector<HTMLElement>('.bar-fill')!
+        const prevArrow = reader.querySelector<HTMLButtonElement>('.arrow-prev')!
+        const nextArrow = reader.querySelector<HTMLButtonElement>('.arrow-next')!
+
+        const key = reader.dataset.key || 'read'
+        const chapKey = reader.dataset.chapterKey || 'read:book'
+        const order = reader.dataset.order || '1'
+        const prevUrl = reader.dataset.prev || ''
+        const nextUrl = reader.dataset.next || ''
+
+        let page = 0
+        let total = 1
+        let advance = 0
+
+        function measure() {
+          const cw = pages.clientWidth
+          pages.style.columnWidth = cw + 'px'
+          void pages.offsetWidth
+          const gap = parseFloat(getComputedStyle(pages).columnGap) || 0
+          advance = cw + gap
+          total = Math.max(1, Math.round((pages.scrollWidth + gap) / advance))
+          if (location.hash === '#end') {
+            page = total - 1
+          } else {
+            const saved = parseInt(localStorage.getItem(key) || '0', 10)
+            page = Math.min(Number.isNaN(saved) ? 0 : saved, total - 1)
+          }
+          render()
+        }
+
+        function render() {
+          pages.style.transform = `translateX(${-page * advance}px)`
+          counter.textContent = `${page + 1} / ${total}`
+          fill.style.width = `${((page + 1) / total) * 100}%`
+          localStorage.setItem(key, String(page))
+          localStorage.setItem(chapKey, order)
+          prevArrow.disabled = page === 0 && !prevUrl
+          nextArrow.disabled = page >= total - 1 && !nextUrl
+        }
+
+        function go(dir: number) {
+          // cross-chapter at boundaries
+          if (dir < 0 && page === 0) {
+            if (prevUrl) location.href = prevUrl + '#end'
+            return
+          }
+          if (dir > 0 && page >= total - 1) {
+            if (nextUrl) location.href = nextUrl
+            return
+          }
+          page = Math.max(0, Math.min(total - 1, page + dir))
+          render()
+        }
+
+        prevArrow.addEventListener('click', () => go(-1))
+        nextArrow.addEventListener('click', () => go(1))
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+            e.preventDefault()
+            go(1)
+          } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+            e.preventDefault()
+            go(-1)
+          } else if (e.key === 'Home') {
+            page = 0
+            render()
+          } else if (e.key === 'End') {
+            page = total - 1
+            render()
+          }
+        })
+
+        let touchX = 0
+        viewport.addEventListener('touchstart', (e) => (touchX = e.changedTouches[0].clientX), {
+          passive: true,
+        })
+        viewport.addEventListener(
+          'touchend',
+          (e) => {
+            const dx = e.changedTouches[0].clientX - touchX
+            if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1)
+          },
+          { passive: true },
+        )
+
+        let t: number
+        window.addEventListener('resize', () => {
+          clearTimeout(t)
+          t = window.setTimeout(measure, 150)
+        })
+
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(() => requestAnimationFrame(measure))
+        } else {
+          window.addEventListener('load', () => requestAnimationFrame(measure))
+        }
+        requestAnimationFrame(measure)
+      }
+
+      initReader()
+    </script>
+  </body>
+</html>
